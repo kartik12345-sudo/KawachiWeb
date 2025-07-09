@@ -1,0 +1,1878 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Kawachi Infratech - Engineering Infrastructure for the Future</title>
+    <meta
+      name="description"
+      content="Leading construction & infrastructure development company delivering innovative, scalable, and sustainable engineering solutions across India's public and private sectors."
+    />
+    <link
+      rel="icon"
+      href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚡</text></svg>"
+      type="image/svg+xml"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700;800;900&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- External Libraries for Enhanced Performance -->
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"
+      defer
+    ></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"
+      defer
+    ></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"
+      defer
+    ></script>
+
+    <style>
+      :root {
+        --primary-color: #00ffff;
+        --secondary-color: #0080ff;
+        --accent-color: #ff00ff;
+        --tertiary-color: #ff6b6b;
+        --quaternary-color: #4ecdc4;
+        --bg-dark: #0a0a0a;
+        --bg-darker: #050505;
+        --bg-space: #000000;
+        --bg-card: rgba(20, 20, 30, 0.7);
+        --text-primary: #ffffff;
+        --text-secondary: #b0b0b0;
+        --text-muted: #707070;
+        --gradient-primary: linear-gradient(
+          135deg,
+          #00ffff 0%,
+          #0080ff 50%,
+          #ff00ff 100%
+        );
+        --gradient-secondary: linear-gradient(
+          135deg,
+          #1a1a2e 0%,
+          #16213e 50%,
+          #0f3460 100%
+        );
+        --shadow-glow: 0 0 30px rgba(0, 255, 255, 0.3);
+        --shadow-epic:
+          0 0 60px rgba(0, 255, 255, 0.4), 0 0 120px rgba(255, 0, 255, 0.2);
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      html {
+        scroll-behavior: smooth;
+      }
+
+      body {
+        font-family: "DM Sans", sans-serif;
+        background: var(--bg-space);
+        color: var(--text-primary);
+        overflow-x: hidden;
+        line-height: 1.6;
+        cursor: none;
+      }
+
+      /* Custom Cursor - Optimized for 60fps */
+      .custom-cursor {
+        position: fixed;
+        width: 24px;
+        height: 24px;
+        border: 2px solid var(--primary-color);
+        border-radius: 50%;
+        pointer-events: none;
+        z-index: 9999;
+        mix-blend-mode: screen;
+        transition: all 0.15s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        transform: translateZ(0);
+        will-change: transform;
+        box-shadow: var(--shadow-glow);
+      }
+
+      .custom-cursor-trail {
+        position: fixed;
+        width: 8px;
+        height: 8px;
+        background: var(--primary-color);
+        border-radius: 50%;
+        pointer-events: none;
+        z-index: 9998;
+        opacity: 0.7;
+        transition: all 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        transform: translateZ(0);
+        will-change: transform;
+        box-shadow: 0 0 15px var(--primary-color);
+      }
+
+      .custom-cursor.hover {
+        transform: scale(2.5) translateZ(0);
+        border-color: var(--accent-color);
+        box-shadow: var(--shadow-epic);
+      }
+
+      .custom-cursor-trail.hover {
+        transform: scale(2) translateZ(0);
+        background: var(--accent-color);
+      }
+
+      /* Hide cursor on mobile */
+      @media (max-width: 768px) {
+        body {
+          cursor: auto;
+        }
+        .custom-cursor,
+        .custom-cursor-trail {
+          display: none;
+        }
+      }
+
+      /* Three.js Canvas Container */
+      #planet-canvas {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: -10;
+        pointer-events: none;
+      }
+
+      /* Navigation */
+      .navbar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        z-index: 1000;
+        background: rgba(10, 10, 10, 0.95);
+        backdrop-filter: blur(20px);
+        border-bottom: 1px solid rgba(0, 255, 255, 0.1);
+        transition: all 0.3s ease;
+      }
+
+      .navbar.scrolled {
+        background: rgba(5, 5, 5, 0.98);
+        box-shadow: var(--shadow-glow);
+      }
+
+      .nav-container {
+        max-width: 1400px;
+        margin: 0 auto;
+        padding: 1rem 2rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      .logo {
+        font-size: 1.8rem;
+        font-weight: 900;
+        background: var(--gradient-primary);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        text-decoration: none;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+      }
+
+      .logo-icon {
+        width: 32px;
+        height: 32px;
+        background: var(--gradient-primary);
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.2rem;
+        animation: logoGlow 2s ease-in-out infinite alternate;
+      }
+
+      @keyframes logoGlow {
+        0% {
+          box-shadow: 0 0 10px rgba(0, 255, 255, 0.5);
+        }
+        100% {
+          box-shadow: 0 0 20px rgba(0, 255, 255, 0.8);
+        }
+      }
+
+      .nav-menu {
+        display: flex;
+        list-style: none;
+        gap: 2rem;
+        align-items: center;
+      }
+
+      .nav-link {
+        color: var(--text-secondary);
+        text-decoration: none;
+        font-weight: 500;
+        transition: all 0.3s ease;
+        position: relative;
+        padding: 0.5rem 1rem;
+        border-radius: 8px;
+      }
+
+      .nav-link:hover {
+        color: var(--primary-color);
+        background: rgba(0, 255, 255, 0.1);
+        transform: translateY(-2px);
+      }
+
+      .nav-cta {
+        background: var(--gradient-primary);
+        padding: 0.75rem 1.5rem;
+        border-radius: 12px;
+        text-decoration: none;
+        color: var(--bg-dark);
+        font-weight: 600;
+        transition: all 0.3s ease;
+        box-shadow: var(--shadow-glow);
+      }
+
+      .nav-cta:hover {
+        transform: translateY(-2px);
+        box-shadow: var(--shadow-epic);
+      }
+
+      /* Hero Section */
+      .hero {
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        padding: 0 2rem;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .hero-content {
+        max-width: 800px;
+        z-index: 2;
+      }
+
+      .hero-title {
+        font-size: 4.5rem;
+        font-weight: 900;
+        margin-bottom: 1.5rem;
+        background: var(--gradient-primary);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        line-height: 1.1;
+        text-shadow: 0 0 30px rgba(0, 255, 255, 0.5);
+        position: relative;
+        overflow: hidden;
+      }
+
+      .hero-title::before {
+        content: "";
+        position: absolute;
+        top: -50%;
+        left: -50%;
+        width: 200%;
+        height: 200%;
+        background: linear-gradient(
+          45deg,
+          transparent,
+          rgba(0, 255, 255, 0.1),
+          transparent,
+          rgba(255, 0, 255, 0.1),
+          transparent
+        );
+        animation: heroGlow 4s linear infinite;
+        z-index: -1;
+      }
+
+      @keyframes heroGlow {
+        0% {
+          transform: translateX(-100%) translateY(-100%) rotate(0deg);
+        }
+        100% {
+          transform: translateX(100%) translateY(100%) rotate(360deg);
+        }
+      }
+
+      .hero-subtitle {
+        font-size: 1.5rem;
+        color: var(--text-secondary);
+        margin-bottom: 2rem;
+        font-weight: 400;
+      }
+
+      .hero-description {
+        font-size: 1.1rem;
+        color: var(--text-muted);
+        margin-bottom: 3rem;
+        line-height: 1.7;
+      }
+
+      .hero-cta {
+        display: flex;
+        gap: 1rem;
+        justify-content: center;
+        flex-wrap: wrap;
+      }
+
+      /* Buttons */
+      .btn {
+        padding: 1rem 2rem;
+        border-radius: 12px;
+        text-decoration: none;
+        font-weight: 600;
+        font-size: 1rem;
+        transition: all 0.3s ease;
+        border: none;
+        cursor: pointer;
+        position: relative;
+        overflow: hidden;
+        transform: translateZ(0);
+        will-change: transform;
+      }
+
+      .btn-primary {
+        background: var(--gradient-primary);
+        color: var(--bg-dark);
+        box-shadow: var(--shadow-glow);
+      }
+
+      .btn-primary:hover {
+        transform: translateY(-3px);
+        box-shadow: var(--shadow-epic);
+      }
+
+      .btn-secondary {
+        background: transparent;
+        color: var(--text-primary);
+        border: 2px solid var(--primary-color);
+      }
+
+      .btn-secondary:hover {
+        background: rgba(0, 255, 255, 0.1);
+        transform: translateY(-3px);
+        box-shadow: 0 0 30px rgba(0, 255, 255, 0.4);
+      }
+
+      /* Magnetic effect for buttons */
+      .magnetic {
+        transition: transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+      }
+
+      /* Section Styles */
+      .section {
+        padding: 8rem 2rem;
+        position: relative;
+      }
+
+      .container {
+        max-width: 1400px;
+        margin: 0 auto;
+      }
+
+      .section-title {
+        font-size: 3rem;
+        font-weight: 800;
+        text-align: center;
+        margin-bottom: 1rem;
+        background: var(--gradient-primary);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
+
+      .section-subtitle {
+        font-size: 1.2rem;
+        color: var(--text-secondary);
+        text-align: center;
+        margin-bottom: 4rem;
+        max-width: 600px;
+        margin-left: auto;
+        margin-right: auto;
+      }
+
+      /* Features Grid */
+      .features-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+        gap: 2rem;
+        margin-top: 4rem;
+      }
+
+      .feature-card {
+        background: var(--bg-card);
+        backdrop-filter: blur(20px);
+        border: 1px solid rgba(0, 255, 255, 0.1);
+        border-radius: 20px;
+        padding: 2.5rem;
+        transition: all 0.3s ease;
+        position: relative;
+        overflow: hidden;
+        transform-style: preserve-3d;
+        will-change: transform;
+      }
+
+      .feature-card::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 1px;
+        background: var(--gradient-primary);
+        opacity: 0;
+        transition: opacity 0.3s ease;
+      }
+
+      .feature-card::after {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(
+          135deg,
+          rgba(255, 255, 255, 0.1) 0%,
+          transparent 50%
+        );
+        opacity: 0;
+        transition: opacity 0.3s ease;
+        pointer-events: none;
+        border-radius: inherit;
+      }
+
+      .feature-card:hover {
+        transform: translateY(-10px);
+        box-shadow: var(--shadow-glow);
+        border-color: var(--primary-color);
+      }
+
+      .feature-card:hover::before,
+      .feature-card:hover::after {
+        opacity: 1;
+      }
+
+      .feature-icon {
+        width: 60px;
+        height: 60px;
+        background: var(--gradient-primary);
+        border-radius: 15px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.5rem;
+        margin-bottom: 1.5rem;
+        animation: iconFloat 3s ease-in-out infinite;
+      }
+
+      @keyframes iconFloat {
+        0%,
+        100% {
+          transform: translateY(0px);
+        }
+        50% {
+          transform: translateY(-5px);
+        }
+      }
+
+      .feature-title {
+        font-size: 1.3rem;
+        font-weight: 700;
+        margin-bottom: 1rem;
+        color: var(--text-primary);
+      }
+
+      .feature-description {
+        color: var(--text-secondary);
+        line-height: 1.6;
+      }
+
+      /* Stats Section */
+      .stats-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 3rem;
+        margin-top: 4rem;
+      }
+
+      .stat-card {
+        text-align: center;
+        padding: 2rem;
+        background: rgba(255, 255, 255, 0.05);
+        border-radius: 20px;
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(0, 255, 255, 0.1);
+        transition: all 0.3s ease;
+      }
+
+      .stat-card:hover {
+        transform: translateY(-5px);
+        box-shadow: var(--shadow-glow);
+      }
+
+      .stat-number {
+        font-size: 2.5rem;
+        font-weight: 900;
+        background: var(--gradient-primary);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        margin-bottom: 0.5rem;
+        display: block;
+      }
+
+      .stat-label {
+        color: var(--text-secondary);
+        font-weight: 500;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+      }
+
+      /* FAQ Section */
+      .faq-container {
+        max-width: 800px;
+        margin: 0 auto;
+      }
+
+      .faq-item {
+        background: var(--bg-card);
+        border: 1px solid rgba(0, 255, 255, 0.1);
+        border-radius: 15px;
+        margin-bottom: 1rem;
+        overflow: hidden;
+        transition: all 0.3s ease;
+      }
+
+      .faq-question {
+        width: 100%;
+        background: none;
+        border: none;
+        color: var(--text-primary);
+        padding: 1.5rem 2rem;
+        text-align: left;
+        font-size: 1.1rem;
+        font-weight: 600;
+        cursor: pointer;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        transition: all 0.3s ease;
+      }
+
+      .faq-question:hover {
+        background: rgba(0, 255, 255, 0.05);
+      }
+
+      .faq-answer {
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.3s ease;
+        padding: 0 2rem;
+      }
+
+      .faq-answer.active {
+        max-height: 200px;
+        padding: 0 2rem 1.5rem;
+      }
+
+      .faq-icon {
+        transition: transform 0.3s ease;
+      }
+
+      .faq-item.active .faq-icon {
+        transform: rotate(180deg);
+      }
+
+      /* Scroll animations */
+      .fade-in {
+        opacity: 0;
+        transform: translateY(30px);
+        transition: all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+      }
+
+      .fade-in.visible {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      /* Mobile Responsive */
+      @media (max-width: 768px) {
+        .hero-title {
+          font-size: 2.8rem;
+        }
+
+        .hero-subtitle {
+          font-size: 1.3rem;
+        }
+
+        .section-title {
+          font-size: 2.5rem;
+        }
+
+        .features-grid,
+        .stats-grid {
+          grid-template-columns: 1fr;
+          gap: 1.5rem;
+        }
+
+        .hero-cta {
+          flex-direction: column;
+          align-items: center;
+        }
+
+        .btn {
+          width: 100%;
+          max-width: 300px;
+        }
+      }
+
+      /* Floating elements */
+      .floating-element {
+        position: absolute;
+        background: var(--gradient-primary);
+        border-radius: 50%;
+        opacity: 0.1;
+        animation: float 6s ease-in-out infinite;
+      }
+
+      @keyframes float {
+        0%,
+        100% {
+          transform: translateY(0px) rotate(0deg);
+        }
+        50% {
+          transform: translateY(-20px) rotate(180deg);
+        }
+      }
+
+      /* PDF Modal */
+      .pdf-modal {
+        display: none;
+        position: fixed;
+        z-index: 10000;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.9);
+        backdrop-filter: blur(10px);
+      }
+
+      .pdf-modal.active {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        animation: modalFadeIn 0.3s ease-out;
+      }
+
+      @keyframes modalFadeIn {
+        0% {
+          opacity: 0;
+          transform: scale(0.9);
+        }
+        100% {
+          opacity: 1;
+          transform: scale(1);
+        }
+      }
+
+      .pdf-modal-content {
+        background: var(--bg-card);
+        border: 1px solid rgba(0, 255, 255, 0.2);
+        border-radius: 20px;
+        width: 90%;
+        height: 90%;
+        max-width: 1200px;
+        max-height: 800px;
+        display: flex;
+        flex-direction: column;
+        overflow: hidden;
+        box-shadow: var(--shadow-epic);
+      }
+
+      .pdf-modal-header {
+        padding: 1.5rem 2rem;
+        border-bottom: 1px solid rgba(0, 255, 255, 0.1);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background: var(--gradient-secondary);
+      }
+
+      .pdf-modal-close {
+        background: none;
+        border: none;
+        color: var(--text-primary);
+        font-size: 2rem;
+        cursor: pointer;
+        transition: all 0.3s ease;
+      }
+
+      .pdf-modal-close:hover {
+        color: var(--accent-color);
+        transform: scale(1.1);
+      }
+
+      .pdf-modal-body {
+        flex: 1;
+      }
+
+      .pdf-modal-body iframe {
+        width: 100%;
+        height: 100%;
+        border: none;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Custom Cursor -->
+    <div class="custom-cursor"></div>
+    <div class="custom-cursor-trail"></div>
+
+    <!-- Three.js Planet Background -->
+    <canvas id="planet-canvas"></canvas>
+
+    <!-- Navigation -->
+    <nav class="navbar" id="navbar">
+      <div class="nav-container">
+        <a href="#" class="logo">
+          <div class="logo-icon">⚡</div>
+          Kawachi
+        </a>
+        <ul class="nav-menu" id="navMenu">
+          <li><a href="#home" class="nav-link">Home</a></li>
+          <li><a href="#services" class="nav-link">Services</a></li>
+          <li><a href="#projects" class="nav-link">Projects</a></li>
+          <li><a href="#capabilities" class="nav-link">Capabilities</a></li>
+          <li><a href="#about" class="nav-link">About</a></li>
+          <li><a href="#" class="nav-link">Portfolio</a></li>
+          <li><a href="#" class="nav-link">News</a></li>
+          <li><a href="#contact" class="nav-cta magnetic">Contact</a></li>
+        </ul>
+      </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+      <div class="hero-content">
+        <h1 class="hero-title">Engineering Infrastructure for the Future</h1>
+        <p class="hero-subtitle">
+          Leading Construction & Infrastructure Development
+        </p>
+        <p class="hero-description">
+          Kawachi Infratech delivers innovative, scalable, and sustainable
+          engineering solutions across India's public and private sectors with
+          cutting-edge technology and expertise.
+        </p>
+        <div class="hero-cta">
+          <a href="#projects" class="btn btn-primary magnetic">View Projects</a>
+          <a href="#services" class="btn btn-secondary magnetic"
+            >Our Services</a
+          >
+        </div>
+      </div>
+
+      <!-- Floating elements -->
+      <div
+        class="floating-element"
+        style="
+          width: 60px;
+          height: 60px;
+          top: 20%;
+          left: 10%;
+          animation-delay: 0s;
+        "
+      ></div>
+      <div
+        class="floating-element"
+        style="
+          width: 80px;
+          height: 80px;
+          top: 60%;
+          right: 10%;
+          animation-delay: 2s;
+        "
+      ></div>
+      <div
+        class="floating-element"
+        style="
+          width: 40px;
+          height: 40px;
+          top: 80%;
+          left: 20%;
+          animation-delay: 4s;
+        "
+      ></div>
+    </section>
+
+    <!-- Services Section -->
+    <section class="section" id="services">
+      <div class="container">
+        <h2 class="section-title fade-in">
+          Comprehensive Infrastructure Services
+        </h2>
+        <p class="section-subtitle fade-in">
+          Delivering world-class construction and engineering solutions across
+          diverse sectors
+        </p>
+
+        <div class="features-grid">
+          <div class="feature-card fade-in magnetic">
+            <div class="feature-icon">🏗️</div>
+            <h3 class="feature-title">Infrastructure Development</h3>
+            <p class="feature-description">
+              Comprehensive infrastructure projects including roads, bridges,
+              and urban development. We deliver scalable solutions that drive
+              economic growth and connectivity.
+            </p>
+          </div>
+
+          <div class="feature-card fade-in magnetic">
+            <div class="feature-icon">🏢</div>
+            <h3 class="feature-title">Building Construction</h3>
+            <p class="feature-description">
+              Commercial, residential, and industrial construction with modern
+              building technologies. We ensure quality, safety, and timely
+              delivery on all projects.
+            </p>
+          </div>
+
+          <div class="feature-card fade-in magnetic">
+            <div class="feature-icon">💧</div>
+            <h3 class="feature-title">Water Management</h3>
+            <p class="feature-description">
+              Advanced water supply systems, sewage treatment, and drainage
+              solutions. Sustainable water infrastructure for growing urban
+              communities.
+            </p>
+          </div>
+
+          <div class="feature-card fade-in magnetic">
+            <div class="feature-icon">⚡</div>
+            <h3 class="feature-title">Electrical Systems</h3>
+            <p class="feature-description">
+              Complete electrical installations, power distribution, and smart
+              grid solutions. Modern electrical infrastructure supporting
+              digital transformation.
+            </p>
+          </div>
+
+          <div class="feature-card fade-in magnetic">
+            <div class="feature-icon">🛣️</div>
+            <h3 class="feature-title">Transportation Networks</h3>
+            <p class="feature-description">
+              Highway construction, road maintenance, and transportation
+              infrastructure. Connecting communities with reliable and durable
+              transportation systems.
+            </p>
+          </div>
+
+          <div class="feature-card fade-in magnetic">
+            <div class="feature-icon">📋</div>
+            <h3 class="feature-title">Project Management</h3>
+            <p class="feature-description">
+              End-to-end project management with advanced planning, execution,
+              and quality control. Ensuring projects are delivered on time,
+              within budget, and to specification.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Stats Section -->
+    <section
+      class="section"
+      id="projects"
+      style="background: var(--gradient-secondary)"
+    >
+      <div class="container">
+        <h2 class="section-title fade-in">Our Impact & Achievements</h2>
+        <p class="section-subtitle fade-in">
+          Delivering excellence across infrastructure projects with measurable
+          results
+        </p>
+
+        <div class="stats-grid">
+          <div class="stat-card fade-in magnetic">
+            <span class="stat-number counter" data-target="50">0</span>
+            <div class="stat-label">Projects Completed</div>
+          </div>
+
+          <div class="stat-card fade-in magnetic">
+            <span class="stat-number counter" data-target="98">0</span>
+            <div class="stat-label">Client Satisfaction %</div>
+          </div>
+
+          <div class="stat-card fade-in magnetic">
+            <span class="stat-number counter" data-target="500">0</span>
+            <div class="stat-label">Cr+ Project Value</div>
+          </div>
+
+          <div class="stat-card fade-in magnetic">
+            <span class="stat-number counter" data-target="3">0</span>
+            <div class="stat-label">Years Experience</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Capabilities Section -->
+    <section class="section" id="capabilities">
+      <div class="container">
+        <h2 class="section-title fade-in">Core Engineering Capabilities</h2>
+        <p class="section-subtitle fade-in">
+          Advanced technical expertise and cutting-edge methodologies for
+          superior project delivery
+        </p>
+
+        <div class="features-grid">
+          <div class="feature-card fade-in magnetic">
+            <div class="feature-icon">🏗️</div>
+            <h3 class="feature-title">Advanced Construction</h3>
+            <p class="feature-description">
+              Modern construction techniques with BIM integration,
+              prefabrication, and smart building technologies for enhanced
+              efficiency and quality.
+            </p>
+          </div>
+
+          <div class="feature-card fade-in magnetic">
+            <div class="feature-icon">🔧</div>
+            <h3 class="feature-title">Engineering Excellence</h3>
+            <p class="feature-description">
+              Comprehensive engineering services including structural, MEP, and
+              civil engineering with state-of-the-art design and analysis
+              capabilities.
+            </p>
+          </div>
+
+          <div class="feature-card fade-in magnetic">
+            <div class="feature-icon">📊</div>
+            <h3 class="feature-title">Digital Project Management</h3>
+            <p class="feature-description">
+              Integrated project management systems with real-time monitoring,
+              IoT sensors, and data analytics for optimized project execution
+              and delivery.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section class="section">
+      <div class="container">
+        <h2 class="section-title fade-in">Frequently Asked Questions</h2>
+        <p class="section-subtitle fade-in">
+          Get answers to common questions about Kawachi Infratech's services and
+          capabilities
+        </p>
+
+        <div class="faq-container">
+          <div class="faq-item fade-in">
+            <button class="faq-question">
+              What types of projects does Kawachi Infratech handle?
+              <span class="faq-icon">▼</span>
+            </button>
+            <div class="faq-answer">
+              <p>
+                We specialize in comprehensive infrastructure projects including
+                roads, bridges, building construction, water management systems,
+                electrical installations, and transportation networks across
+                public and private sectors.
+              </p>
+            </div>
+          </div>
+
+          <div class="faq-item fade-in">
+            <button class="faq-question">
+              What is Kawachi Infratech's approach to quality and safety?
+              <span class="faq-icon">▼</span>
+            </button>
+            <div class="faq-answer">
+              <p>
+                We implement rigorous quality control measures, follow
+                international safety standards, and use advanced project
+                management systems with real-time monitoring to ensure all
+                projects meet the highest standards of excellence.
+              </p>
+            </div>
+          </div>
+
+          <div class="faq-item fade-in">
+            <button class="faq-question">
+              How does Kawachi Infratech ensure timely project delivery?
+              <span class="faq-icon">▼</span>
+            </button>
+            <div class="faq-answer">
+              <p>
+                We use digital project management tools, BIM integration, and
+                advanced planning methodologies combined with experienced teams
+                to ensure projects are delivered on time and within budget.
+              </p>
+            </div>
+          </div>
+
+          <div class="faq-item fade-in">
+            <button class="faq-question">
+              What makes Kawachi Infratech different from other construction
+              companies?
+              <span class="faq-icon">▼</span>
+            </button>
+            <div class="faq-answer">
+              <p>
+                Our commitment to innovation, sustainability, and technology
+                integration sets us apart. We combine traditional engineering
+                excellence with modern digital solutions and smart building
+                technologies for superior project outcomes.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- About Section -->
+    <section
+      class="section"
+      id="about"
+      style="background: var(--gradient-secondary)"
+    >
+      <div class="container" style="text-align: center; max-width: 800px">
+        <div class="fade-in">
+          <img
+            src="Kawachi_logo_design4.jpg"
+            alt="Kawachi Infratech Logo"
+            style="
+              width: 100px;
+              height: auto;
+              border-radius: 15px;
+              margin-bottom: 2rem;
+              border: 2px solid rgba(0, 255, 255, 0.3);
+              box-shadow: var(--shadow-glow);
+            "
+            onerror="this.style.display='none';"
+          />
+
+          <h2 class="section-title">Kawachi Infratech Private Limited</h2>
+          <p
+            style="
+              font-size: 1.3rem;
+              color: var(--secondary-color);
+              margin-bottom: 2rem;
+            "
+          >
+            Engineering Infrastructure for the Future
+          </p>
+
+          <p
+            style="
+              font-size: 1.1rem;
+              color: var(--text-secondary);
+              line-height: 1.8;
+              margin-bottom: 3rem;
+            "
+          >
+            We are a forward-thinking infrastructure company delivering
+            innovative, scalable, and sustainable engineering solutions across
+            India's public and private sectors. Since our incorporation in 2021,
+            we have been committed to transforming the infrastructure landscape
+            with cutting-edge technology and engineering excellence.
+          </p>
+
+          <div
+            style="
+              display: flex;
+              gap: 1.5rem;
+              justify-content: center;
+              flex-wrap: wrap;
+            "
+          >
+            <button onclick="openPDFModal()" class="btn btn-primary magnetic">
+              Learn More
+            </button>
+            <a
+              href="https://adityabhardwaj1234.github.io/KawachiWeb/Kawachi%20Infratech%20private%20limited_Profile1.1.pdf"
+              download
+              class="btn btn-secondary magnetic"
+              >Download Profile</a
+            >
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Newsletter Section -->
+    <section class="section" id="contact">
+      <div class="container" style="text-align: center; max-width: 600px">
+        <h2 class="section-title fade-in">Stay Connected</h2>
+        <p class="section-subtitle fade-in">
+          Subscribe to our newsletter for the latest project updates and
+          infrastructure insights
+        </p>
+
+        <form
+          style="
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            justify-content: center;
+          "
+          class="fade-in"
+        >
+          <input
+            type="email"
+            placeholder="Enter your email address"
+            required
+            style="
+              flex: 1;
+              min-width: 250px;
+              padding: 1rem 1.5rem;
+              border: 2px solid rgba(0, 255, 255, 0.2);
+              border-radius: 12px;
+              background: rgba(0, 0, 0, 0.3);
+              color: var(--text-primary);
+              font-size: 1rem;
+            "
+          />
+          <button type="submit" class="btn btn-primary magnetic">
+            Subscribe
+          </button>
+        </form>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer
+      style="
+        background: var(--bg-darker);
+        border-top: 1px solid rgba(0, 255, 255, 0.1);
+        padding: 4rem 2rem 2rem;
+      "
+    >
+      <div style="max-width: 1400px; margin: 0 auto">
+        <div
+          style="
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 3rem;
+            margin-bottom: 2rem;
+          "
+        >
+          <div>
+            <h3
+              style="
+                color: var(--text-primary);
+                font-weight: 700;
+                margin-bottom: 1.5rem;
+              "
+            >
+              Services
+            </h3>
+            <ul style="list-style: none; color: var(--text-secondary)">
+              <li style="margin-bottom: 0.8rem">
+                <a href="#" style="color: inherit; text-decoration: none"
+                  >Infrastructure Development</a
+                >
+              </li>
+              <li style="margin-bottom: 0.8rem">
+                <a href="#" style="color: inherit; text-decoration: none"
+                  >Building Construction</a
+                >
+              </li>
+              <li style="margin-bottom: 0.8rem">
+                <a href="#" style="color: inherit; text-decoration: none"
+                  >Water Management</a
+                >
+              </li>
+              <li style="margin-bottom: 0.8rem">
+                <a href="#" style="color: inherit; text-decoration: none"
+                  >Electrical Systems</a
+                >
+              </li>
+            </ul>
+          </div>
+
+          <div>
+            <h3
+              style="
+                color: var(--text-primary);
+                font-weight: 700;
+                margin-bottom: 1.5rem;
+              "
+            >
+              Company
+            </h3>
+            <ul style="list-style: none; color: var(--text-secondary)">
+              <li style="margin-bottom: 0.8rem">
+                <a href="#" style="color: inherit; text-decoration: none"
+                  >Civil Engineering</a
+                >
+              </li>
+              <li style="margin-bottom: 0.8rem">
+                <a href="#" style="color: inherit; text-decoration: none"
+                  >MEP Services</a
+                >
+              </li>
+              <li style="margin-bottom: 0.8rem">
+                <a href="#" style="color: inherit; text-decoration: none"
+                  >Project Consulting</a
+                >
+              </li>
+              <li style="margin-bottom: 0.8rem">
+                <a href="#" style="color: inherit; text-decoration: none"
+                  >Maintenance Services</a
+                >
+              </li>
+            </ul>
+          </div>
+
+          <div>
+            <h3
+              style="
+                color: var(--text-primary);
+                font-weight: 700;
+                margin-bottom: 1.5rem;
+              "
+            >
+              Resources
+            </h3>
+            <ul style="list-style: none; color: var(--text-secondary)">
+              <li style="margin-bottom: 0.8rem">
+                <a href="#" style="color: inherit; text-decoration: none"
+                  >Documentation</a
+                >
+              </li>
+              <li style="margin-bottom: 0.8rem">
+                <a href="#" style="color: inherit; text-decoration: none"
+                  >Case Studies</a
+                >
+              </li>
+              <li style="margin-bottom: 0.8rem">
+                <a href="#" style="color: inherit; text-decoration: none"
+                  >Safety Guidelines</a
+                >
+              </li>
+              <li style="margin-bottom: 0.8rem">
+                <a href="#" style="color: inherit; text-decoration: none"
+                  >Quality Standards</a
+                >
+              </li>
+            </ul>
+          </div>
+
+          <div>
+            <h3
+              style="
+                color: var(--text-primary);
+                font-weight: 700;
+                margin-bottom: 1.5rem;
+              "
+            >
+              Connect
+            </h3>
+            <ul style="list-style: none; color: var(--text-secondary)">
+              <li style="margin-bottom: 0.8rem">
+                <a href="#" style="color: inherit; text-decoration: none"
+                  >LinkedIn</a
+                >
+              </li>
+              <li style="margin-bottom: 0.8rem">
+                <a href="#" style="color: inherit; text-decoration: none"
+                  >Twitter</a
+                >
+              </li>
+              <li style="margin-bottom: 0.8rem">
+                <a href="#" style="color: inherit; text-decoration: none"
+                  >Contact</a
+                >
+              </li>
+              <li style="margin-bottom: 0.8rem">
+                <a href="#" style="color: inherit; text-decoration: none"
+                  >Newsletter</a
+                >
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <div
+          style="
+            border-top: 1px solid rgba(0, 255, 255, 0.2);
+            padding-top: 2rem;
+            text-align: center;
+            color: var(--text-muted);
+          "
+        >
+          <p>
+            &copy; 2024 Kawachi Infratech Private Limited. All rights reserved.
+          </p>
+          <div
+            style="
+              display: flex;
+              justify-content: center;
+              gap: 1rem;
+              margin-top: 1rem;
+            "
+          >
+            <a
+              href="#"
+              style="
+                width: 40px;
+                height: 40px;
+                background: var(--bg-card);
+                border: 1px solid rgba(0, 255, 255, 0.1);
+                border-radius: 10px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                color: var(--text-secondary);
+                text-decoration: none;
+              "
+              >🐦</a
+            >
+            <a
+              href="#"
+              style="
+                width: 40px;
+                height: 40px;
+                background: var(--bg-card);
+                border: 1px solid rgba(0, 255, 255, 0.1);
+                border-radius: 10px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                color: var(--text-secondary);
+                text-decoration: none;
+              "
+              >💬</a
+            >
+            <a
+              href="#"
+              style="
+                width: 40px;
+                height: 40px;
+                background: var(--bg-card);
+                border: 1px solid rgba(0, 255, 255, 0.1);
+                border-radius: 10px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                color: var(--text-secondary);
+                text-decoration: none;
+              "
+              >🔗</a
+            >
+            <a
+              href="#"
+              style="
+                width: 40px;
+                height: 40px;
+                background: var(--bg-card);
+                border: 1px solid rgba(0, 255, 255, 0.1);
+                border-radius: 10px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                color: var(--text-secondary);
+                text-decoration: none;
+              "
+              >📱</a
+            >
+          </div>
+        </div>
+      </div>
+    </footer>
+
+    <!-- PDF Modal -->
+    <div id="pdf-modal" class="pdf-modal">
+      <div class="pdf-modal-content">
+        <div class="pdf-modal-header">
+          <h3>Kawachi Infratech Company Profile</h3>
+          <button class="pdf-modal-close" onclick="closePDFModal()">
+            &times;
+          </button>
+        </div>
+        <div class="pdf-modal-body">
+          <iframe id="pdf-iframe" src="" frameborder="0"></iframe>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      // Mobile detection
+      const isMobile =
+        /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
+          navigator.userAgent,
+        ) || window.innerWidth <= 768;
+
+      // Initialize everything when page loads
+      document.addEventListener("DOMContentLoaded", () => {
+        if (!isMobile) {
+          initCustomCursor();
+          initMagneticEffect();
+          initThreePlanet();
+        }
+
+        initScrollAnimations();
+        initNavbar();
+        initFAQ();
+        initCounters();
+      });
+
+      // Optimized Custom Cursor (60fps)
+      function initCustomCursor() {
+        const cursor = document.querySelector(".custom-cursor");
+        const cursorTrail = document.querySelector(".custom-cursor-trail");
+
+        if (!cursor || !cursorTrail) return;
+
+        let mouseX = 0,
+          mouseY = 0;
+        let trailX = 0,
+          trailY = 0;
+        let animationId;
+
+        function updateCursor() {
+          // Smooth interpolation for 60fps
+          trailX += (mouseX - trailX) * 0.15;
+          trailY += (mouseY - trailY) * 0.15;
+
+          cursor.style.transform = `translate3d(${mouseX - 12}px, ${mouseY - 12}px, 0)`;
+          cursorTrail.style.transform = `translate3d(${trailX - 4}px, ${trailY - 4}px, 0)`;
+
+          animationId = requestAnimationFrame(updateCursor);
+        }
+
+        document.addEventListener(
+          "mousemove",
+          (e) => {
+            mouseX = e.clientX;
+            mouseY = e.clientY;
+          },
+          { passive: true },
+        );
+
+        updateCursor();
+
+        // Hover effects
+        const hoverElements = document.querySelectorAll(
+          "a, button, .magnetic, .feature-card",
+        );
+
+        hoverElements.forEach((el) => {
+          el.addEventListener(
+            "mouseenter",
+            () => {
+              cursor.classList.add("hover");
+              cursorTrail.classList.add("hover");
+            },
+            { passive: true },
+          );
+
+          el.addEventListener(
+            "mouseleave",
+            () => {
+              cursor.classList.remove("hover");
+              cursorTrail.classList.remove("hover");
+            },
+            { passive: true },
+          );
+        });
+      }
+
+      // Enhanced Magnetic Effect
+      function initMagneticEffect() {
+        const magneticElements = document.querySelectorAll(".magnetic");
+
+        magneticElements.forEach((element) => {
+          element.addEventListener(
+            "mousemove",
+            (e) => {
+              const rect = element.getBoundingClientRect();
+              const x = e.clientX - rect.left - rect.width / 2;
+              const y = e.clientY - rect.top - rect.height / 2;
+
+              const distance = Math.sqrt(x * x + y * y);
+              const maxDistance = 60;
+
+              if (distance < maxDistance) {
+                const force = (maxDistance - distance) / maxDistance;
+                const moveX = x * force * 0.3;
+                const moveY = y * force * 0.3;
+
+                element.style.transform = `translate3d(${moveX}px, ${moveY}px, 0)`;
+              }
+            },
+            { passive: true },
+          );
+
+          element.addEventListener(
+            "mouseleave",
+            () => {
+              element.style.transform = "translate3d(0, 0, 0)";
+            },
+            { passive: true },
+          );
+        });
+      }
+
+      // Three.js Enhanced Planet Background
+      function initThreePlanet() {
+        if (typeof THREE === "undefined") return;
+
+        const canvas = document.getElementById("planet-canvas");
+        if (!canvas) return;
+
+        let scene, camera, renderer, planet, stars;
+        let mouseX = 0.5,
+          mouseY = 0.5;
+
+        // Scene setup
+        scene = new THREE.Scene();
+        camera = new THREE.PerspectiveCamera(
+          75,
+          window.innerWidth / window.innerHeight,
+          0.1,
+          1000,
+        );
+        renderer = new THREE.WebGLRenderer({
+          canvas: canvas,
+          alpha: true,
+          antialias: true,
+        });
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        renderer.setClearColor(0x000000, 0);
+
+        // Enhanced Planet with shader
+        const planetGeometry = new THREE.SphereGeometry(5, 128, 64);
+        const planetMaterial = new THREE.ShaderMaterial({
+          uniforms: {
+            time: { value: 0 },
+            mousePos: { value: new THREE.Vector2(0.5, 0.5) },
+          },
+          vertexShader: `
+                    varying vec2 vUv;
+                    varying vec3 vPosition;
+                    varying vec3 vNormal;
+                    
+                    void main() {
+                        vUv = uv;
+                        vPosition = position;
+                        vNormal = normalize(normalMatrix * normal);
+                        gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+                    }
+                `,
+          fragmentShader: `
+                    uniform float time;
+                    uniform vec2 mousePos;
+                    varying vec2 vUv;
+                    varying vec3 vPosition;
+                    varying vec3 vNormal;
+                    
+                    float noise(vec2 st) {
+                        return fract(sin(dot(st.xy, vec2(12.9898,78.233))) * 43758.5453123);
+                    }
+                    
+                    void main() {
+                        vec2 uv = vUv;
+                        float timeScale = time * 0.0005;
+                        
+                        // Create terrain patterns
+                        float terrain1 = noise(uv * 4.0 + timeScale);
+                        float terrain2 = noise(uv * 8.0 + timeScale * 1.5) * 0.5;
+                        float terrain = terrain1 + terrain2;
+                        
+                        // Alien colors
+                        vec3 ocean = vec3(0.0, 0.3, 0.6);
+                        vec3 land = vec3(0.1, 0.5, 0.2);
+                        vec3 mountain = vec3(0.4, 0.2, 0.1);
+                        
+                        vec3 color = mix(ocean, land, smoothstep(0.3, 0.5, terrain));
+                        color = mix(color, mountain, smoothstep(0.6, 0.8, terrain));
+                        
+                        // Atmosphere effect
+                        float fresnel = 1.0 - abs(dot(vNormal, vec3(0.0, 0.0, 1.0)));
+                        color += vec3(0.0, 1.0, 1.0) * fresnel * 0.3;
+                        
+                        // Mouse interaction
+                        vec2 mouseInfluence = mousePos - 0.5;
+                        float mouseEffect = length(mouseInfluence) * 0.2;
+                        color += vec3(1.0, 0.5, 1.0) * mouseEffect;
+                        
+                        // Pulsing
+                        float pulse = sin(time * 0.001) * 0.1 + 0.9;
+                        color *= pulse;
+                        
+                        gl_FragColor = vec4(color, 0.9);
+                    }
+                `,
+          transparent: true,
+        });
+
+        planet = new THREE.Mesh(planetGeometry, planetMaterial);
+        planet.position.set(-8, -4, -20);
+        scene.add(planet);
+
+        // Enhanced Stars
+        const starGeometry = new THREE.BufferGeometry();
+        const starMaterial = new THREE.PointsMaterial({
+          color: 0x00ffff,
+          size: 2,
+          transparent: true,
+          opacity: 0.8,
+          blending: THREE.AdditiveBlending,
+        });
+
+        const starVertices = [];
+        for (let i = 0; i < 2000; i++) {
+          starVertices.push(
+            (Math.random() - 0.5) * 400,
+            (Math.random() - 0.5) * 400,
+            (Math.random() - 0.5) * 400,
+          );
+        }
+
+        starGeometry.setAttribute(
+          "position",
+          new THREE.Float32BufferAttribute(starVertices, 3),
+        );
+        stars = new THREE.Points(starGeometry, starMaterial);
+        scene.add(stars);
+
+        // Lighting
+        const ambientLight = new THREE.AmbientLight(0x404040, 0.4);
+        scene.add(ambientLight);
+
+        const pointLight = new THREE.PointLight(0x00ffff, 1, 100);
+        pointLight.position.set(10, 10, 10);
+        scene.add(pointLight);
+
+        camera.position.z = 8;
+
+        // Mouse tracking
+        document.addEventListener(
+          "mousemove",
+          (e) => {
+            mouseX = e.clientX / window.innerWidth;
+            mouseY = e.clientY / window.innerHeight;
+          },
+          { passive: true },
+        );
+
+        // Animation loop
+        function animate() {
+          requestAnimationFrame(animate);
+
+          if (planet) {
+            planet.rotation.y += 0.003;
+            planet.rotation.x += 0.001;
+
+            planetMaterial.uniforms.time.value = Date.now();
+            planetMaterial.uniforms.mousePos.value.set(mouseX, mouseY);
+
+            // Subtle movement
+            const targetX = (mouseX - 0.5) * 0.2;
+            const targetY = (mouseY - 0.5) * 0.2;
+
+            planet.position.x += (targetX - 8 - planet.position.x) * 0.01;
+            planet.position.y += (targetY - 4 - planet.position.y) * 0.01;
+          }
+
+          if (stars) {
+            stars.rotation.y += 0.0005;
+          }
+
+          // Camera movement
+          camera.position.x +=
+            ((mouseX - 0.5) * 0.3 - camera.position.x) * 0.01;
+          camera.position.y +=
+            (-(mouseY - 0.5) * 0.3 - camera.position.y) * 0.01;
+          camera.lookAt(0, 0, 0);
+
+          renderer.render(scene, camera);
+        }
+
+        animate();
+
+        // Resize handler
+        window.addEventListener("resize", () => {
+          camera.aspect = window.innerWidth / window.innerHeight;
+          camera.updateProjectionMatrix();
+          renderer.setSize(window.innerWidth, window.innerHeight);
+        });
+      }
+
+      // Scroll Animations with IntersectionObserver
+      function initScrollAnimations() {
+        const observerOptions = {
+          threshold: 0.1,
+          rootMargin: "0px 0px -50px 0px",
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add("visible");
+            }
+          });
+        }, observerOptions);
+
+        document.querySelectorAll(".fade-in").forEach((el) => {
+          observer.observe(el);
+        });
+      }
+
+      // Enhanced Navbar
+      function initNavbar() {
+        const navbar = document.getElementById("navbar");
+
+        window.addEventListener(
+          "scroll",
+          () => {
+            if (window.scrollY > 50) {
+              navbar.classList.add("scrolled");
+            } else {
+              navbar.classList.remove("scrolled");
+            }
+          },
+          { passive: true },
+        );
+
+        // Smooth scrolling
+        document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
+          anchor.addEventListener("click", function (e) {
+            const href = this.getAttribute("href");
+            if (href && href !== "#" && href.length > 1) {
+              e.preventDefault();
+              const target = document.querySelector(href);
+              if (target) {
+                target.scrollIntoView({
+                  behavior: "smooth",
+                  block: "start",
+                });
+              }
+            }
+          });
+        });
+      }
+
+      // FAQ Accordion
+      function initFAQ() {
+        document.querySelectorAll(".faq-question").forEach((question) => {
+          question.addEventListener("click", () => {
+            const faqItem = question.parentElement;
+            const answer = faqItem.querySelector(".faq-answer");
+
+            // Close others
+            document.querySelectorAll(".faq-item").forEach((item) => {
+              if (item !== faqItem) {
+                item.classList.remove("active");
+                item.querySelector(".faq-answer").classList.remove("active");
+              }
+            });
+
+            // Toggle current
+            faqItem.classList.toggle("active");
+            answer.classList.toggle("active");
+          });
+        });
+      }
+
+      // Animated Counters
+      function initCounters() {
+        let countersAnimated = false;
+
+        function animateCounters() {
+          if (countersAnimated) return;
+          countersAnimated = true;
+
+          const counters = document.querySelectorAll(".counter");
+          counters.forEach((counter) => {
+            const target = parseInt(counter.getAttribute("data-target"));
+            const duration = 2000;
+            const step = target / (duration / 16);
+            let current = 0;
+
+            const timer = setInterval(() => {
+              current += step;
+              if (current >= target) {
+                current = target;
+                clearInterval(timer);
+              }
+              counter.textContent = Math.floor(current).toLocaleString();
+            }, 16);
+          });
+        }
+
+        const projectsSection = document.getElementById("projects");
+        if (projectsSection) {
+          const observer = new IntersectionObserver(
+            (entries) => {
+              entries.forEach((entry) => {
+                if (entry.isIntersecting) {
+                  animateCounters();
+                  observer.unobserve(entry.target);
+                }
+              });
+            },
+            { threshold: 0.5 },
+          );
+
+          observer.observe(projectsSection);
+        }
+      }
+
+      // PDF Modal Functions
+      function openPDFModal() {
+        const modal = document.getElementById("pdf-modal");
+        const iframe = document.getElementById("pdf-iframe");
+
+        if (modal && iframe) {
+          iframe.src =
+            "https://adityabhardwaj1234.github.io/KawachiWeb/Kawachi%20Infratech%20private%20limited_Profile1.1.pdf";
+          modal.classList.add("active");
+          document.body.style.overflow = "hidden";
+        }
+      }
+
+      function closePDFModal() {
+        const modal = document.getElementById("pdf-modal");
+        const iframe = document.getElementById("pdf-iframe");
+
+        if (modal && iframe) {
+          modal.classList.remove("active");
+          iframe.src = "";
+          document.body.style.overflow = "";
+        }
+      }
+
+      // Close modal on backdrop click
+      document.addEventListener("click", (e) => {
+        if (e.target.id === "pdf-modal") {
+          closePDFModal();
+        }
+      });
+
+      // Escape key to close modal
+      document.addEventListener("keydown", (e) => {
+        if (e.key === "Escape") {
+          closePDFModal();
+        }
+      });
+    </script>
+  </body>
+</html>
