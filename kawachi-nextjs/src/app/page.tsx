@@ -86,19 +86,19 @@ export default function HomePage() {
           >
             <button
               onClick={() => handleMenuClick("#portfolio")}
-              className="px-8 py-4 bg-gradient-to-r from-kawachi-primary to-kawachi-accent rounded-full text-white font-semibold text-lg hover:scale-105 transition-transform duration-300 shadow-epic"
+              className="px-8 py-4 bg-gradient-to-r from-kawachi-primary to-kawachi-accent rounded-full text-white font-semibold text-lg btn-glow-hover shadow-epic"
             >
               Explore Projects
             </button>
             <button
               onClick={() => handleMenuClick("#contact")}
-              className="px-8 py-4 border-2 border-kawachi-primary text-kawachi-primary rounded-full font-semibold text-lg hover:bg-kawachi-primary hover:text-white transition-all duration-300"
+              className="px-8 py-4 border-2 border-kawachi-primary text-kawachi-primary rounded-full font-semibold text-lg hover:bg-kawachi-primary hover:text-white transition-all duration-300 btn-glow-hover"
             >
               Our Services
             </button>
             <button
               onClick={() => handleMenuClick("#contact")}
-              className="px-8 py-4 border-2 border-kawachi-secondary text-kawachi-secondary rounded-full font-semibold text-lg hover:bg-kawachi-secondary hover:text-white transition-all duration-300"
+              className="px-8 py-4 border-2 border-kawachi-secondary text-kawachi-secondary rounded-full font-semibold text-lg hover:bg-kawachi-secondary hover:text-white transition-all duration-300 btn-glow-hover"
             >
               Get Quote
             </button>
