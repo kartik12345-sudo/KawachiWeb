@@ -132,7 +132,7 @@ export default function HomePage() {
                 category: "New Delhi",
                 description:
                   "Underground metro line extension with 15 stations covering 28.9 km of advanced transit infrastructure.",
-                budget: "���2200 Cr",
+                budget: "₹2200 Cr",
                 duration: "72 months",
                 technologies: [
                   "Smart Traffic Systems",
@@ -315,14 +315,14 @@ export default function HomePage() {
             {...fadeInUp}
           >
             <button
-              className="px-8 py-3 bg-gradient-to-r from-kawachi-primary to-kawachi-secondary rounded-full text-white font-medium"
-              data-magnetic
+              onClick={() => handleMenuClick("#about")}
+              className="px-8 py-3 bg-gradient-to-r from-kawachi-primary to-kawachi-secondary rounded-full text-white font-medium hover:scale-105 transition-transform duration-300"
             >
               Company Profile
             </button>
             <button
+              onClick={() => handleMenuClick("#contact")}
               className="px-8 py-3 border-2 border-kawachi-primary text-kawachi-primary rounded-full font-medium hover:bg-kawachi-primary hover:text-white transition-all duration-300"
-              data-magnetic
             >
               Get In Touch
             </button>
