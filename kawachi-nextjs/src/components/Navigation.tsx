@@ -76,7 +76,6 @@ export default function Navigation({ className = "" }: NavigationProps) {
                 <button
                   onClick={() => handleMenuClick("#contact")}
                   className="px-6 py-2 bg-gradient-to-r from-kawachi-primary to-kawachi-secondary rounded-full text-white font-medium hover:scale-105 transition-transform duration-300"
-                  data-magnetic
                 >
                   Contact
                 </button>
