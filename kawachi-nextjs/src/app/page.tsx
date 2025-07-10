@@ -584,10 +584,7 @@ export default function HomePage() {
                 placeholder="Enter your email address"
                 className="flex-1 px-6 py-3 bg-gray-900/50 border border-kawachi-primary/30 rounded-full text-white placeholder-gray-500 focus:outline-none focus:border-kawachi-primary transition-colors duration-300"
               />
-              <button
-                className="px-8 py-3 bg-gradient-to-r from-kawachi-primary to-kawachi-secondary rounded-full text-white font-medium hover:scale-105 transition-transform duration-300"
-                data-magnetic
-              >
+              <button className="px-8 py-3 bg-gradient-to-r from-kawachi-primary to-kawachi-secondary rounded-full text-white font-medium hover:scale-105 transition-transform duration-300">
                 Subscribe
               </button>
             </div>
