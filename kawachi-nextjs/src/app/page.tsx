@@ -140,7 +140,7 @@ export default function HomePage() {
                   "Advanced BIM",
                 ],
                 image:
-                  "https://cdn.builder.io/api/v1/image/assets%2F204cc1a828544bc2a4495582b308d8c9%2Fc83e2e1936ba428c8669d2299c78cfc0?format=webp&width=800",
+                  "https://images.unsplash.com/photo-1544966503-7e91b11d6e2d?w=800&auto=format&fit=crop&q=60",
               },
               {
                 title: "Smart City Gurgaon Infrastructure",
@@ -155,7 +155,7 @@ export default function HomePage() {
                   "Traffic Management",
                 ],
                 image:
-                  "https://cdn.builder.io/api/v1/image/assets%2F204cc1a828544bc2a4495582b308d8c9%2F5aaa919b47ed4836a6b7658b40600d2f?format=webp&width=800",
+                  "https://images.unsplash.com/photo-1449824913935-59a10b8d2000?w=800&auto=format&fit=crop&q=60",
               },
               {
                 title: "Yamuna Water Treatment Plant",
@@ -170,7 +170,7 @@ export default function HomePage() {
                   "Automation",
                 ],
                 image:
-                  "https://cdn.builder.io/api/v1/image/assets%2F204cc1a828544bc2a4495582b308d8c9%2F430c545ffe4845f7a8050b36cc534e45?format=webp&width=800",
+                  "https://images.unsplash.com/photo-1581094794329-c8112a89af12?w=800&auto=format&fit=crop&q=60",
               },
               {
                 title: "National Highway 48 Expansion",
@@ -185,7 +185,7 @@ export default function HomePage() {
                   "Advanced BIM",
                 ],
                 image:
-                  "https://cdn.builder.io/api/v1/image/assets%2F204cc1a828544bc2a4495582b308d8c9%2F02f47ea026744f86a57d03872c780656?format=webp&width=800",
+                  "https://images.unsplash.com/photo-1558618666-4c2c0643b3bb?w=800&auto=format&fit=crop&q=60",
               },
               {
                 title: "AIIMS Expansion Project",
@@ -200,7 +200,7 @@ export default function HomePage() {
                   "Digital Infrastructure",
                 ],
                 image:
-                  "https://cdn.builder.io/api/v1/image/assets%2F204cc1a828544bc2a4495582b308d8c9%2Fd71a338bd8934f35bebb91095e0dde25?format=webp&width=800",
+                  "https://images.unsplash.com/photo-1576091160399-112ba8d25d1f?w=800&auto=format&fit=crop&q=60",
               },
               {
                 title: "Renewable Energy Grid Integration",
@@ -215,7 +215,52 @@ export default function HomePage() {
                   "Grid Automation",
                 ],
                 image:
-                  "https://cdn.builder.io/api/v1/image/assets%2F204cc1a828544bc2a4495582b308d8c9%2F4d29fb48fdfe42fcac889ea18a502619?format=webp&width=800",
+                  "https://images.unsplash.com/photo-1466611653911-95081537e5b7?w=800&auto=format&fit=crop&q=60",
+              },
+              {
+                title: "Mumbai Coastal Road Project",
+                category: "Mumbai",
+                description:
+                  "8-lane coastal highway with tunnels and bridges to reduce traffic congestion.",
+                budget: "₹12,700 Cr",
+                duration: "84 months",
+                technologies: [
+                  "Tunnel Engineering",
+                  "Marine Construction",
+                  "Environmental Protection",
+                ],
+                image:
+                  "https://images.unsplash.com/photo-1541888946425-d81bb19240f5?w=800&auto=format&fit=crop&q=60",
+              },
+              {
+                title: "Bangalore Airport Metro Extension",
+                category: "Bangalore",
+                description:
+                  "High-speed metro connection to Kempegowda International Airport.",
+                budget: "₹5,950 Cr",
+                duration: "54 months",
+                technologies: [
+                  "Airport Rail Link",
+                  "Automated Systems",
+                  "Passenger Flow Management",
+                ],
+                image:
+                  "https://images.unsplash.com/photo-1544966503-7e91b11d6e2d?w=800&auto=format&fit=crop&q=60",
+              },
+              {
+                title: "Pune IT City Development",
+                category: "Pune",
+                description:
+                  "Integrated IT hub with residential, commercial and tech infrastructure.",
+                budget: "₹3,200 Cr",
+                duration: "60 months",
+                technologies: [
+                  "Smart Building",
+                  "Fiber Optic Network",
+                  "Sustainable Design",
+                ],
+                image:
+                  "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=800&auto=format&fit=crop&q=60",
               },
             ].map((project, index) => (
               <motion.div
