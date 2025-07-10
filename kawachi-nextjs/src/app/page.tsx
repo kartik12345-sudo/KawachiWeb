@@ -80,20 +80,20 @@ export default function HomePage() {
             transition={{ duration: 0.8, delay: 0.6 }}
           >
             <button
+              onClick={() => handleMenuClick("#portfolio")}
               className="px-8 py-4 bg-gradient-to-r from-kawachi-primary to-kawachi-accent rounded-full text-white font-semibold text-lg hover:scale-105 transition-transform duration-300 shadow-epic"
-              data-magnetic
             >
               Explore Projects
             </button>
             <button
+              onClick={() => handleMenuClick("#contact")}
               className="px-8 py-4 border-2 border-kawachi-primary text-kawachi-primary rounded-full font-semibold text-lg hover:bg-kawachi-primary hover:text-white transition-all duration-300"
-              data-magnetic
             >
               Our Services
             </button>
             <button
+              onClick={() => handleMenuClick("#contact")}
               className="px-8 py-4 border-2 border-kawachi-secondary text-kawachi-secondary rounded-full font-semibold text-lg hover:bg-kawachi-secondary hover:text-white transition-all duration-300"
-              data-magnetic
             >
               Get Quote
             </button>
