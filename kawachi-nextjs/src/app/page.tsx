@@ -23,7 +23,6 @@ export default function HomePage() {
 
   return (
     <div className="bg-kawachi-space min-h-screen text-white overflow-x-hidden">
-      <MagneticCursor />
       <Navigation />
 
       {/* Hero Section */}
