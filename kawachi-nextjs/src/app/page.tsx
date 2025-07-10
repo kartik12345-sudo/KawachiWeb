@@ -7,6 +7,11 @@ import Navigation from "@/components/Navigation";
 export default function HomePage() {
   const [openFaq, setOpenFaq] = useState<number | null>(null);
 
+  const handleMenuClick = (href: string) => {
+    const element = document.querySelector(href);
+    element?.scrollIntoView({ behavior: "smooth" });
+  };
+
   const fadeInUp = {
     initial: { opacity: 0, y: 60 },
     animate: { opacity: 1, y: 0 },
@@ -127,7 +132,7 @@ export default function HomePage() {
                 category: "New Delhi",
                 description:
                   "Underground metro line extension with 15 stations covering 28.9 km of advanced transit infrastructure.",
-                budget: "₹2200 Cr",
+                budget: "���2200 Cr",
                 duration: "72 months",
                 technologies: [
                   "Smart Traffic Systems",
