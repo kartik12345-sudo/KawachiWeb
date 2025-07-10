@@ -548,7 +548,7 @@ export default function HomePage() {
                   "Our company has been selected as the primary contractor for Pune's comprehensive smart city infrastructure development project, the largest single project to date.",
                 tags: ["BIM", "Technology", "Innovation"],
                 image:
-                  "https://cdn.builder.io/api/v1/image/assets%2F204cc1a828544bc2a4495582b308d8c9%2F5aea95f9c2cf4f38a1e78dea6e453dd7?format=webp&width=800",
+                  "https://images.unsplash.com/photo-1449824913935-59a10b8d2000?w=800&auto=format&fit=crop&q=60",
               },
               {
                 title:
@@ -558,7 +558,7 @@ export default function HomePage() {
                   "The Delhi Metro Phase 4 extension is 6 months ahead of schedule, demonstrating our commitment to timely delivery and quality execution.",
                 tags: ["Metro", "Infrastructure", "Delhi"],
                 image:
-                  "https://cdn.builder.io/api/v1/image/assets%2F204cc1a828544bc2a4495582b308d8c9%2Fde31265f66214f3f9200a19a4559c036?format=webp&width=800",
+                  "https://images.unsplash.com/photo-1544966503-7e91b11d6e2d?w=800&auto=format&fit=crop&q=60",
               },
               {
                 title:
@@ -568,7 +568,7 @@ export default function HomePage() {
                   "Implementation of Building Information Modeling across all projects enhances precision, reduces costs, and improves project coordination.",
                 tags: ["BIM", "Technology", "Innovation"],
                 image:
-                  "https://cdn.builder.io/api/v1/image/assets%2F204cc1a828544bc2a4495582b308d8c9%2F8c07eb617aec46e89c9737883b3d276e?format=webp&width=800",
+                  "https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=800&auto=format&fit=crop&q=60",
               },
             ].map((article, index) => (
               <motion.div
