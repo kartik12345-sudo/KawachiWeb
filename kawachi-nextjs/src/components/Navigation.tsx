@@ -23,7 +23,7 @@ export default function Navigation({ className = "" }: NavigationProps) {
 
   const menuItems = [
     { label: "Home", href: "#home" },
-    { label: "Services", href: "#services" },
+    { label: "Services", href: "#contact" },
     { label: "Portfolio", href: "#portfolio" },
     { label: "About", href: "#about" },
     { label: "Sponsors", href: "#sponsors" },
