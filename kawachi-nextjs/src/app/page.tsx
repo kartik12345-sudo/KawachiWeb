@@ -663,7 +663,6 @@ export default function HomePage() {
                 <button
                   type="submit"
                   className="w-full py-4 bg-gradient-to-r from-kawachi-primary to-kawachi-accent rounded-lg text-white font-semibold hover:scale-105 transition-transform duration-300"
-                  data-magnetic
                 >
                   Send Message
                 </button>
