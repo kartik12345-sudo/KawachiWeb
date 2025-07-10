@@ -330,7 +330,7 @@ export default function HomePage() {
       {/* About Section */}
       <section
         id="about"
-        className="py-20 px-4 bg-gradient-to-b from-kawachi-space to-gray-900"
+        className="py-32 px-4 bg-gradient-to-b from-gray-900 to-kawachi-space"
       >
         <div className="max-w-4xl mx-auto text-center">
           <motion.div {...fadeInUp}>
