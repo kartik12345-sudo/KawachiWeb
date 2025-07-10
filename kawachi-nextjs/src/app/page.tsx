@@ -33,7 +33,7 @@ export default function HomePage() {
       {/* Hero Section */}
       <section
         id="home"
-        className="relative min-h-screen flex items-center justify-center px-4 pt-16"
+        className="relative min-h-screen flex items-center justify-center px-4 pt-16 bg-pattern-dots"
       >
         {/* Floating background elements */}
         <div className="absolute inset-0 overflow-hidden">
