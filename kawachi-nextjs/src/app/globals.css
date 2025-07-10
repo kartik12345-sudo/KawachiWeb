@@ -28,31 +28,8 @@ body {
       rgb(var(--background-end-rgb))
     )
     rgb(var(--background-start-rgb));
-  cursor: none;
   overflow-x: hidden;
   line-height: 1.6;
-}
-
-/* Hide default cursor on desktop */
-@media (min-width: 769px) {
-  *,
-  *::before,
-  *::after {
-    cursor: none !important;
-  }
-}
-
-/* Show default cursor on mobile */
-@media (max-width: 768px) {
-  body {
-    cursor: auto;
-  }
-
-  *,
-  *::before,
-  *::after {
-    cursor: auto !important;
-  }
 }
 
 /* Smooth scrolling for anchor links */
