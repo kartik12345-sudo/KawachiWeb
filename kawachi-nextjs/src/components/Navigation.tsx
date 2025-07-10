@@ -69,7 +69,6 @@ export default function Navigation({ className = "" }: NavigationProps) {
                     key={item.label}
                     onClick={() => handleMenuClick(item.href)}
                     className="text-white hover:text-kawachi-primary transition-colors duration-300 font-medium"
-                    data-magnetic
                   >
                     {item.label}
                   </button>
