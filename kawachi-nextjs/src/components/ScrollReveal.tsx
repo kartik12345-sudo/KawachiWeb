@@ -1,206 +1,141 @@
 "use client";
 
 import { useEffect, useRef } from "react";
-import { motion, useAnimation } from "framer-motion";
 
 interface ScrollRevealProps {
   children: React.ReactNode;
-  direction?: "up" | "down" | "left" | "right" | "scale";
+  className?: string;
   delay?: number;
   duration?: number;
-  distance?: number;
-  className?: string;
-  once?: boolean;
+  direction?: "up" | "down" | "left" | "right";
 }
 
 export default function ScrollReveal({
   children,
-  direction = "up",
+  className = "",
   delay = 0,
   duration = 0.6,
-  distance = 50,
-  className = "",
-  once = true,
+  direction = "up",
 }: ScrollRevealProps) {
-  const ref = useRef<HTMLDivElement>(null);
-  const controls = useAnimation();
+  const elementRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    const element = ref.current;
+    const element = elementRef.current;
     if (!element) return;
 
     const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          controls.start("visible");
-
-          if (once) {
-            observer.unobserve(element);
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("animate-in");
+            observer.unobserve(entry.target);
           }
-        } else if (!once) {
-          controls.start("hidden");
-        }
+        });
       },
       {
         threshold: 0.1,
-        rootMargin: "-50px 0px -50px 0px",
+        rootMargin: "0px 0px -50px 0px",
       },
     );
+
+    // Set initial state
+    element.style.opacity = "0";
+    element.style.transform = getInitialTransform(direction);
+    element.style.transition = `opacity ${duration}s ease-out ${delay}s, transform ${duration}s ease-out ${delay}s`;
 
     observer.observe(element);
 
     return () => {
       observer.disconnect();
     };
-  }, [controls, once]);
+  }, [delay, duration, direction]);
 
-  const getVariants = () => {
-    const baseVariants = {
-      hidden: {
-        opacity: 0,
-      },
-      visible: {
-        opacity: 1,
-        transition: {
-          duration,
-          delay,
-          ease: [0.25, 0.46, 0.45, 0.94] as const, // Custom cubic-bezier for smooth animation
-        },
-      },
-    };
-
-    switch (direction) {
+  const getInitialTransform = (dir: string) => {
+    switch (dir) {
       case "up":
-        return {
-          hidden: { ...baseVariants.hidden, y: distance },
-          visible: { ...baseVariants.visible, y: 0 },
-        };
+        return "translateY(60px)";
       case "down":
-        return {
-          hidden: { ...baseVariants.hidden, y: -distance },
-          visible: { ...baseVariants.visible, y: 0 },
-        };
+        return "translateY(-60px)";
       case "left":
-        return {
-          hidden: { ...baseVariants.hidden, x: distance },
-          visible: { ...baseVariants.visible, x: 0 },
-        };
+        return "translateX(60px)";
       case "right":
-        return {
-          hidden: { ...baseVariants.hidden, x: -distance },
-          visible: { ...baseVariants.visible, x: 0 },
-        };
-      case "scale":
-        return {
-          hidden: { ...baseVariants.hidden, scale: 0.8 },
-          visible: { ...baseVariants.visible, scale: 1 },
-        };
+        return "translateX(-60px)";
       default:
-        return baseVariants;
+        return "translateY(60px)";
     }
   };
 
   return (
-    <motion.div
-      ref={ref}
-      initial="hidden"
-      animate={controls}
-      variants={getVariants()}
-      className={className}
-      style={{ willChange: "transform, opacity" }}
-    >
+    <div ref={elementRef} className={`scroll-reveal ${className}`}>
       {children}
-    </motion.div>
-  );
-}
-
-// Staggered children animation component
-interface StaggeredRevealProps {
-  children: React.ReactNode;
-  staggerDelay?: number;
-  className?: string;
-}
-
-export function StaggeredReveal({
-  children,
-  staggerDelay = 0.1,
-  className = "",
-}: StaggeredRevealProps) {
-  const ref = useRef<HTMLDivElement>(null);
-  const controls = useAnimation();
-
-  useEffect(() => {
-    const element = ref.current;
-    if (!element) return;
-
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          controls.start("visible");
-          observer.unobserve(element);
+      <style jsx>{`
+        .scroll-reveal.animate-in {
+          opacity: 1 !important;
+          transform: translate(0, 0) !important;
         }
-      },
-      {
-        threshold: 0.1,
-        rootMargin: "-50px 0px -50px 0px",
-      },
-    );
-
-    observer.observe(element);
-
-    return () => {
-      observer.disconnect();
-    };
-  }, [controls]);
-
-  return (
-    <motion.div
-      ref={ref}
-      initial="hidden"
-      animate={controls}
-      variants={{
-        hidden: {},
-        visible: {
-          transition: {
-            staggerChildren: staggerDelay,
-          },
-        },
-      }}
-      className={className}
-    >
-      {children}
-    </motion.div>
+      `}</style>
+    </div>
   );
 }
 
-// Individual stagger item
-export function StaggerItem({
-  children,
-  className = "",
-}: {
-  children: React.ReactNode;
-  className?: string;
-}) {
-  return (
-    <motion.div
-      variants={{
-        hidden: {
-          opacity: 0,
-          y: 30,
-        },
-        visible: {
-          opacity: 1,
-          y: 0,
-          transition: {
-            duration: 0.6,
-            ease: [0.25, 0.46, 0.45, 0.94],
-          },
-        },
-      }}
-      className={className}
-      style={{ willChange: "transform, opacity" }}
-    >
-      {children}
-    </motion.div>
-  );
-}
+// Performance optimization hook for lazy loading images
+export const useLazyLoading = () => {
+  useEffect(() => {
+    if ("IntersectionObserver" in window) {
+      const imageObserver = new IntersectionObserver((entries, observer) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            const img = entry.target as HTMLImageElement;
+            if (img.dataset.src) {
+              img.src = img.dataset.src;
+              img.classList.remove("loading");
+              observer.unobserve(img);
+            }
+          }
+        });
+      });
+
+      const images = document.querySelectorAll("img[data-src]");
+      images.forEach((img) => imageObserver.observe(img));
+
+      return () => imageObserver.disconnect();
+    }
+  }, []);
+};
+
+// Smooth scroll utility
+export const smoothScrollTo = (elementId: string) => {
+  const element = document.getElementById(elementId.replace("#", ""));
+  if (element) {
+    const offsetTop = element.offsetTop - 80; // Account for fixed header
+    window.scrollTo({
+      top: offsetTop,
+      behavior: "smooth",
+    });
+  }
+};
+
+// Performance monitoring
+export const usePerformanceMonitoring = () => {
+  useEffect(() => {
+    // Monitor performance metrics
+    if ("performance" in window) {
+      const observer = new PerformanceObserver((list) => {
+        for (const entry of list.getEntries()) {
+          if (entry.entryType === "navigation") {
+            console.log("Navigation Performance:", {
+              domContentLoaded:
+                entry.domContentLoadedEventEnd -
+                entry.domContentLoadedEventStart,
+              loadComplete: entry.loadEventEnd - entry.loadEventStart,
+            });
+          }
+        }
+      });
+
+      observer.observe({ entryTypes: ["navigation"] });
+
+      return () => observer.disconnect();
+    }
+  }, []);
+};
