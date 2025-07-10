@@ -308,6 +308,67 @@ textarea:focus-visible {
   }
 }
 
+/* Enhanced background patterns */
+.bg-pattern-dots {
+  background-image: radial-gradient(
+    circle,
+    rgba(0, 255, 255, 0.1) 1px,
+    transparent 1px
+  );
+  background-size: 20px 20px;
+}
+
+.bg-pattern-grid {
+  background-image:
+    linear-gradient(rgba(0, 255, 255, 0.1) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 255, 255, 0.1) 1px, transparent 1px);
+  background-size: 50px 50px;
+}
+
+/* Enhanced text gradients */
+.text-gradient-enhanced {
+  background: linear-gradient(
+    135deg,
+    #00ffff 0%,
+    #0080ff 25%,
+    #ff00ff 75%,
+    #ff6b6b 100%
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-size: 200% 200%;
+  animation: gradient-shift 4s ease-in-out infinite;
+}
+
+@keyframes gradient-shift {
+  0%,
+  100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+}
+
+/* Enhanced scroll indicators */
+.scroll-indicator {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 3px;
+  background: linear-gradient(90deg, #00ffff, #ff00ff);
+  z-index: 9999;
+  transition: width 0.3s ease;
+}
+
+/* Better focus states */
+.focus-enhanced:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(0, 255, 255, 0.5);
+  border-color: #00ffff;
+}
+
 /* High contrast mode support */
 @media (prefers-contrast: high) {
   .bg-kawachi-dark {
