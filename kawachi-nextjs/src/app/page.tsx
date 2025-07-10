@@ -2,11 +2,10 @@
 
 import { motion } from "framer-motion";
 import { useState } from "react";
-import MagneticCursor from "@/components/MagneticCursor";
 import Navigation from "@/components/Navigation";
 
 export default function HomePage() {
-  const [openFaq, setOpenFaq] = useState<number | null>(1);
+  const [openFaq, setOpenFaq] = useState<number | null>(null);
 
   const fadeInUp = {
     initial: { opacity: 0, y: 60 },
