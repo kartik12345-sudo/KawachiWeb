@@ -265,7 +265,7 @@ export default function HomePage() {
             ].map((project, index) => (
               <motion.div
                 key={index}
-                className="group relative bg-gradient-to-b from-gray-900/50 to-gray-900/80 backdrop-blur-sm rounded-2xl overflow-hidden border border-kawachi-primary/20 hover:border-kawachi-primary/50 transition-all duration-500 hover:scale-105"
+                className="group relative card-enhanced rounded-2xl overflow-hidden"
                 variants={fadeInUp}
               >
                 <div className="aspect-video overflow-hidden">
