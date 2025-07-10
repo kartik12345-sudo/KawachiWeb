@@ -1,588 +1,697 @@
 "use client";
 
-import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
-import dynamic from "next/dynamic";
-import CustomCursor from "@/components/CustomCursor";
-import Layout from "@/components/Layout";
-import MagneticButton from "@/components/MagneticButton";
-import ScrollReveal, {
-  StaggeredReveal,
-  StaggerItem,
-} from "@/components/ScrollReveal";
-
-// Dynamic imports for performance
-const AlienPlanet = dynamic(() => import("@/components/AlienPlanet"), {
-  ssr: false,
-  loading: () => <div className="fixed inset-0 -z-10 bg-black" />,
-});
+import { useState } from "react";
+import MagneticCursor from "@/components/MagneticCursor";
+import Navigation from "@/components/Navigation";
 
 export default function HomePage() {
-  const [isMobile, setIsMobile] = useState(false);
-  const [isPDFModalOpen, setIsPDFModalOpen] = useState(false);
+  const [openFaq, setOpenFaq] = useState<number | null>(1);
 
-  useEffect(() => {
-    const checkMobile = () => {
-      setIsMobile(
-        /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
-          navigator.userAgent,
-        ) || window.innerWidth <= 768,
-      );
-    };
+  const fadeInUp = {
+    initial: { opacity: 0, y: 60 },
+    animate: { opacity: 1, y: 0 },
+    transition: { duration: 0.6 },
+  };
 
-    checkMobile();
-    window.addEventListener("resize", checkMobile);
-    return () => window.removeEventListener("resize", checkMobile);
-  }, []);
-
-  const stats = [
-    { number: "50+", label: "Projects Completed" },
-    { number: "98%", label: "Client Satisfaction" },
-    { number: "₹500Cr+", label: "Project Value" },
-    { number: "3+", label: "Years Experience" },
-  ];
-
-  const services = [
-    {
-      icon: "🏗️",
-      title: "Infrastructure Development",
-      description:
-        "Comprehensive infrastructure projects including roads, bridges, and urban development. We deliver scalable solutions that drive economic growth and connectivity.",
+  const stagger = {
+    animate: {
+      transition: {
+        staggerChildren: 0.1,
+      },
     },
-    {
-      icon: "🏢",
-      title: "Building Construction",
-      description:
-        "Commercial, residential, and industrial construction with modern building technologies. We ensure quality, safety, and timely delivery on all projects.",
-    },
-    {
-      icon: "💧",
-      title: "Water Management",
-      description:
-        "Advanced water supply systems, sewage treatment, and drainage solutions. Sustainable water infrastructure for growing urban communities.",
-    },
-    {
-      icon: "⚡",
-      title: "Electrical Systems",
-      description:
-        "Complete electrical installations, power distribution, and smart grid solutions. Modern electrical infrastructure supporting digital transformation.",
-    },
-    {
-      icon: "🛣️",
-      title: "Transportation Networks",
-      description:
-        "Highway construction, road maintenance, and transportation infrastructure. Connecting communities with reliable and durable transportation systems.",
-    },
-    {
-      icon: "📋",
-      title: "Project Management",
-      description:
-        "End-to-end project management with advanced planning, execution, and quality control. Ensuring projects are delivered on time, within budget, and to specification.",
-    },
-  ];
-
-  const capabilities = [
-    {
-      icon: "🏗️",
-      title: "Advanced Construction",
-      description:
-        "Modern construction techniques with BIM integration, prefabrication, and smart building technologies for enhanced efficiency and quality.",
-    },
-    {
-      icon: "🔧",
-      title: "Engineering Excellence",
-      description:
-        "Comprehensive engineering services including structural, MEP, and civil engineering with state-of-the-art design and analysis capabilities.",
-    },
-    {
-      icon: "📊",
-      title: "Digital Project Management",
-      description:
-        "Integrated project management systems with real-time monitoring, IoT sensors, and data analytics for optimized project execution and delivery.",
-    },
-  ];
-
-  const ecosystemDivisions = [
-    {
-      icon: "🏗️",
-      title: "Civil Engineering",
-      description:
-        "Comprehensive civil engineering services including structural design, foundation engineering, and infrastructure development solutions.",
-    },
-    {
-      icon: "⚡",
-      title: "MEP Services",
-      description:
-        "Mechanical, Electrical, and Plumbing systems design and installation with smart building automation and energy-efficient solutions.",
-    },
-    {
-      icon: "📋",
-      title: "Project Consulting",
-      description:
-        "Strategic project consulting, feasibility studies, and engineering advisory services for optimal project planning and execution.",
-    },
-    {
-      icon: "🛠️",
-      title: "Maintenance Services",
-      description:
-        "Comprehensive maintenance and facility management services ensuring long-term asset performance and operational efficiency.",
-    },
-  ];
-
-  const faqItems = [
-    {
-      question: "What types of projects does Kawachi Infratech handle?",
-      answer:
-        "We specialize in comprehensive infrastructure projects including roads, bridges, building construction, water management systems, electrical installations, and transportation networks across public and private sectors.",
-    },
-    {
-      question: "What is Kawachi Infratech's approach to quality and safety?",
-      answer:
-        "We implement rigorous quality control measures, follow international safety standards, and use advanced project management systems with real-time monitoring to ensure all projects meet the highest standards of excellence.",
-    },
-    {
-      question: "How does Kawachi Infratech ensure timely project delivery?",
-      answer:
-        "We use digital project management tools, BIM integration, and advanced planning methodologies combined with experienced teams to ensure projects are delivered on time and within budget.",
-    },
-    {
-      question:
-        "What makes Kawachi Infratech different from other construction companies?",
-      answer:
-        "Our commitment to innovation, sustainability, and technology integration sets us apart. We combine traditional engineering excellence with modern digital solutions and smart building technologies for superior project outcomes.",
-    },
-  ];
-
-  const [openFAQ, setOpenFAQ] = useState<number | null>(null);
+  };
 
   return (
-    <>
-      <CustomCursor isMobile={isMobile} />
-      <AlienPlanet isMobile={isMobile} />
+    <div className="bg-kawachi-space min-h-screen text-white overflow-x-hidden">
+      <MagneticCursor />
+      <Navigation />
 
-      <Layout>
-        {/* Hero Section */}
-        <section
-          id="home"
-          className="min-h-screen flex items-center justify-center relative overflow-hidden"
-        >
-          <div className="max-w-4xl mx-auto text-center px-6 relative z-10">
-            <motion.h1
-              className="text-5xl md:text-7xl font-black mb-6 bg-gradient-to-r from-kawachi-primary via-kawachi-secondary to-kawachi-accent bg-clip-text text-transparent leading-tight"
-              initial={{ opacity: 0, y: 50 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, ease: "easeOut" }}
-              style={{ textShadow: "0 0 30px rgba(0, 255, 255, 0.5)" }}
-            >
-              Engineering Infrastructure for the Future
-            </motion.h1>
+      {/* Hero Section */}
+      <section
+        id="home"
+        className="relative min-h-screen flex items-center justify-center px-4 pt-16"
+      >
+        {/* Floating background elements */}
+        <div className="absolute inset-0 overflow-hidden">
+          <div className="absolute top-1/4 left-1/4 w-32 h-32 bg-kawachi-primary/20 rounded-full blur-xl animate-float" />
+          <div
+            className="absolute top-3/4 right-1/4 w-24 h-24 bg-kawachi-accent/20 rounded-full blur-xl animate-float"
+            style={{ animationDelay: "2s" }}
+          />
+          <div
+            className="absolute top-1/2 left-3/4 w-16 h-16 bg-kawachi-secondary/20 rounded-full blur-xl animate-float"
+            style={{ animationDelay: "4s" }}
+          />
+        </div>
 
-            <motion.p
-              className="text-xl md:text-2xl text-gray-300 mb-8 max-w-3xl mx-auto"
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.2, ease: "easeOut" }}
-            >
-              Leading Construction & Infrastructure Development
-            </motion.p>
-
-            <motion.p
-              className="text-lg text-gray-400 mb-12 max-w-2xl mx-auto leading-relaxed"
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.4, ease: "easeOut" }}
-            >
-              Kawachi Infratech delivers innovative, scalable, and sustainable
-              engineering solutions across India&apos;s public and private
-              sectors with cutting-edge technology and expertise.
-            </motion.p>
-
-            <motion.div
-              className="flex flex-col sm:flex-row gap-6 justify-center items-center"
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.6, ease: "easeOut" }}
-            >
-              <MagneticButton href="#projects" variant="primary">
-                View Projects
-              </MagneticButton>
-              <MagneticButton href="#services" variant="secondary">
-                Our Services
-              </MagneticButton>
-            </motion.div>
-          </div>
-
-          {/* Floating elements */}
-          <div className="absolute inset-0 pointer-events-none">
-            {[...Array(6)].map((_, i) => (
-              <motion.div
-                key={i}
-                className="absolute w-4 h-4 bg-kawachi-primary/20 rounded-full"
-                style={{
-                  left: `${10 + i * 15}%`,
-                  top: `${20 + (i % 3) * 20}%`,
-                }}
-                animate={{
-                  y: [0, -20, 0],
-                  rotate: [0, 180, 360],
-                }}
-                transition={{
-                  duration: 6 + i,
-                  repeat: Infinity,
-                  ease: "easeInOut",
-                }}
-              />
-            ))}
-          </div>
-        </section>
-
-        {/* Services Section */}
-        <section id="services" className="py-24 relative">
-          <div className="max-w-7xl mx-auto px-6">
-            <ScrollReveal>
-              <div className="text-center mb-16">
-                <h2 className="text-4xl md:text-6xl font-bold bg-gradient-to-r from-kawachi-primary via-kawachi-secondary to-kawachi-accent bg-clip-text text-transparent mb-6">
-                  Comprehensive Infrastructure Services
-                </h2>
-                <p className="text-xl text-gray-400 max-w-3xl mx-auto">
-                  Delivering world-class construction and engineering solutions
-                  across diverse sectors
-                </p>
-              </div>
-            </ScrollReveal>
-
-            <StaggeredReveal className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {services.map((service, index) => (
-                <StaggerItem key={index}>
-                  <motion.div
-                    className="bg-kawachi-dark/70 backdrop-blur-intense border border-kawachi-primary/20 rounded-2xl p-8 h-full transition-all duration-300 hover:border-kawachi-primary/40 hover:shadow-glow group"
-                    whileHover={{ y: -10 }}
-                    data-magnetic
-                  >
-                    <div className="text-4xl mb-6 group-hover:scale-110 transition-transform duration-300">
-                      {service.icon}
-                    </div>
-                    <h3 className="text-xl font-semibold text-white mb-4 group-hover:text-kawachi-primary transition-colors">
-                      {service.title}
-                    </h3>
-                    <p className="text-gray-400 leading-relaxed">
-                      {service.description}
-                    </p>
-                  </motion.div>
-                </StaggerItem>
-              ))}
-            </StaggeredReveal>
-          </div>
-        </section>
-
-        {/* Stats Section */}
-        <section
-          id="projects"
-          className="py-24 bg-gradient-to-r from-kawachi-dark to-kawachi-darker relative"
-        >
-          <div className="max-w-7xl mx-auto px-6">
-            <ScrollReveal>
-              <div className="text-center mb-16">
-                <h2 className="text-4xl md:text-6xl font-bold bg-gradient-to-r from-kawachi-primary to-kawachi-accent bg-clip-text text-transparent mb-6">
-                  Our Impact & Achievements
-                </h2>
-                <p className="text-xl text-gray-400 max-w-3xl mx-auto">
-                  Delivering excellence across infrastructure projects with
-                  measurable results
-                </p>
-              </div>
-            </ScrollReveal>
-
-            <StaggeredReveal className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-              {stats.map((stat, index) => (
-                <StaggerItem key={index}>
-                  <motion.div
-                    className="text-center p-8 bg-kawachi-primary/5 backdrop-blur-intense border border-kawachi-primary/20 rounded-2xl hover:border-kawachi-primary/40 hover:shadow-glow transition-all duration-300"
-                    whileHover={{ scale: 1.05 }}
-                    data-magnetic
-                  >
-                    <motion.div
-                      className="text-4xl md:text-5xl font-black bg-gradient-to-r from-kawachi-primary to-kawachi-accent bg-clip-text text-transparent mb-4"
-                      initial={{ scale: 0 }}
-                      whileInView={{ scale: 1 }}
-                      transition={{ duration: 0.6, delay: index * 0.1 }}
-                      viewport={{ once: true }}
-                    >
-                      {stat.number}
-                    </motion.div>
-                    <p className="text-gray-400 font-medium uppercase tracking-wide text-sm">
-                      {stat.label}
-                    </p>
-                  </motion.div>
-                </StaggerItem>
-              ))}
-            </StaggeredReveal>
-          </div>
-        </section>
-
-        {/* Capabilities Section */}
-        <section id="capabilities" className="py-24 relative">
-          <div className="max-w-7xl mx-auto px-6">
-            <ScrollReveal>
-              <div className="text-center mb-16">
-                <h2 className="text-4xl md:text-6xl font-bold bg-gradient-to-r from-kawachi-primary via-kawachi-secondary to-kawachi-accent bg-clip-text text-transparent mb-6">
-                  Core Engineering Capabilities
-                </h2>
-                <p className="text-xl text-gray-400 max-w-3xl mx-auto">
-                  Advanced technical expertise and cutting-edge methodologies
-                  for superior project delivery
-                </p>
-              </div>
-            </ScrollReveal>
-
-            <StaggeredReveal className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-              {capabilities.map((capability, index) => (
-                <StaggerItem key={index}>
-                  <motion.div
-                    className="bg-kawachi-dark/70 backdrop-blur-intense border border-kawachi-primary/20 rounded-2xl p-10 h-full transition-all duration-300 hover:border-kawachi-primary/40 hover:shadow-epic group"
-                    whileHover={{ y: -15, rotateY: 5 }}
-                    data-magnetic
-                  >
-                    <div className="text-5xl mb-8 group-hover:scale-125 group-hover:rotate-12 transition-all duration-300">
-                      {capability.icon}
-                    </div>
-                    <h3 className="text-2xl font-semibold text-white mb-6 group-hover:text-kawachi-primary transition-colors">
-                      {capability.title}
-                    </h3>
-                    <p className="text-gray-400 leading-relaxed text-lg">
-                      {capability.description}
-                    </p>
-                  </motion.div>
-                </StaggerItem>
-              ))}
-            </StaggeredReveal>
-          </div>
-        </section>
-
-        {/* Company Divisions Section */}
-        <section className="py-24 bg-gradient-to-r from-kawachi-darker to-kawachi-dark relative">
-          <div className="max-w-7xl mx-auto px-6">
-            <ScrollReveal>
-              <div className="text-center mb-16">
-                <h2 className="text-4xl md:text-6xl font-bold bg-gradient-to-r from-kawachi-primary to-kawachi-accent bg-clip-text text-transparent mb-6">
-                  Company Divisions
-                </h2>
-                <p className="text-xl text-gray-400 max-w-3xl mx-auto">
-                  Specialized divisions delivering comprehensive infrastructure
-                  solutions across sectors
-                </p>
-              </div>
-            </ScrollReveal>
-
-            <StaggeredReveal className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-              {ecosystemDivisions.map((division, index) => (
-                <StaggerItem key={index}>
-                  <motion.div
-                    className="bg-kawachi-dark/60 backdrop-blur-intense border border-kawachi-primary/20 rounded-2xl p-6 h-full transition-all duration-300 hover:border-kawachi-primary/40 hover:shadow-glow group"
-                    whileHover={{ y: -8, scale: 1.02 }}
-                    data-magnetic
-                  >
-                    <div className="text-3xl mb-4 group-hover:scale-110 transition-transform duration-300">
-                      {division.icon}
-                    </div>
-                    <h3 className="text-lg font-semibold text-white mb-3 group-hover:text-kawachi-primary transition-colors">
-                      {division.title}
-                    </h3>
-                    <p className="text-gray-400 leading-relaxed text-sm">
-                      {division.description}
-                    </p>
-                  </motion.div>
-                </StaggerItem>
-              ))}
-            </StaggeredReveal>
-          </div>
-        </section>
-
-        {/* FAQ Section */}
-        <section className="py-24 relative">
-          <div className="max-w-4xl mx-auto px-6">
-            <ScrollReveal>
-              <div className="text-center mb-16">
-                <h2 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-kawachi-primary to-kawachi-accent bg-clip-text text-transparent mb-6">
-                  Frequently Asked Questions
-                </h2>
-                <p className="text-xl text-gray-400">
-                  Get answers to common questions about Kawachi Infratech&apos;s
-                  services and capabilities
-                </p>
-              </div>
-            </ScrollReveal>
-
-            <div className="space-y-4">
-              {faqItems.map((item, index) => (
-                <ScrollReveal key={index} delay={index * 0.1}>
-                  <motion.div
-                    className="bg-kawachi-dark/50 backdrop-blur-intense border border-kawachi-primary/20 rounded-2xl overflow-hidden"
-                    whileHover={{ borderColor: "rgba(0, 255, 255, 0.4)" }}
-                  >
-                    <button
-                      className="w-full p-6 text-left flex justify-between items-center hover:bg-kawachi-primary/5 transition-colors"
-                      onClick={() =>
-                        setOpenFAQ(openFAQ === index ? null : index)
-                      }
-                      data-magnetic
-                    >
-                      <span className="text-lg font-semibold text-white pr-8">
-                        {item.question}
-                      </span>
-                      <motion.span
-                        className="text-kawachi-primary text-2xl flex-shrink-0"
-                        animate={{ rotate: openFAQ === index ? 180 : 0 }}
-                        transition={{ duration: 0.3 }}
-                      >
-                        ▼
-                      </motion.span>
-                    </button>
-                    <motion.div
-                      initial={false}
-                      animate={{
-                        height: openFAQ === index ? "auto" : 0,
-                        opacity: openFAQ === index ? 1 : 0,
-                      }}
-                      transition={{ duration: 0.3 }}
-                      className="overflow-hidden"
-                    >
-                      <div className="p-6 pt-0 text-gray-400 leading-relaxed">
-                        {item.answer}
-                      </div>
-                    </motion.div>
-                  </motion.div>
-                </ScrollReveal>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        {/* About Section */}
-        <section
-          id="about"
-          className="py-24 bg-gradient-to-r from-kawachi-darker to-kawachi-dark relative"
-        >
-          <div className="max-w-4xl mx-auto px-6 text-center">
-            <ScrollReveal>
-              <div className="mb-12">
-                <motion.img
-                  src="Kawachi_logo_design4.jpg"
-                  alt="Kawachi Infratech Logo"
-                  className="w-24 h-24 mx-auto rounded-2xl mb-8 border-2 border-kawachi-primary/30 shadow-glow"
-                  whileHover={{ scale: 1.1, rotate: 5 }}
-                  onError={(e) => {
-                    e.currentTarget.style.display = "none";
-                  }}
-                />
-
-                <h2 className="text-4xl md:text-6xl font-bold bg-gradient-to-r from-kawachi-primary to-kawachi-accent bg-clip-text text-transparent mb-6">
-                  Kawachi Infratech Private Limited
-                </h2>
-
-                <p className="text-2xl text-kawachi-secondary font-medium mb-8">
-                  Engineering Infrastructure for the Future
-                </p>
-
-                <p className="text-lg text-gray-400 leading-relaxed mb-12 max-w-3xl mx-auto">
-                  We are a forward-thinking infrastructure company delivering
-                  innovative, scalable, and sustainable engineering solutions
-                  across India&apos;s public and private sectors. Since our
-                  incorporation in 2021, we have been committed to transforming
-                  the infrastructure landscape with cutting-edge technology and
-                  engineering excellence.
-                </p>
-              </div>
-            </ScrollReveal>
-
-            <ScrollReveal delay={0.3}>
-              <div className="flex flex-col sm:flex-row gap-6 justify-center">
-                <MagneticButton
-                  onClick={() => setIsPDFModalOpen(true)}
-                  variant="primary"
-                >
-                  Learn More
-                </MagneticButton>
-                <MagneticButton
-                  href="https://adityabhardwaj1234.github.io/KawachiWeb/Kawachi%20Infratech%20private%20limited_Profile1.1.pdf"
-                  variant="secondary"
-                >
-                  Download Profile
-                </MagneticButton>
-              </div>
-            </ScrollReveal>
-          </div>
-        </section>
-
-        {/* Newsletter Section */}
-        <section
-          id="contact"
-          className="py-24 bg-gradient-to-r from-kawachi-dark to-kawachi-darker relative"
-        >
-          <div className="max-w-4xl mx-auto px-6 text-center">
-            <ScrollReveal>
-              <h2 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-kawachi-primary to-kawachi-accent bg-clip-text text-transparent mb-6">
-                Stay Connected
-              </h2>
-              <p className="text-xl text-gray-400 mb-12">
-                Subscribe to our newsletter for the latest project updates and
-                infrastructure insights
-              </p>
-
-              <form className="flex flex-col sm:flex-row gap-4 max-w-md mx-auto">
-                <input
-                  type="email"
-                  placeholder="Enter your email address"
-                  className="flex-1 px-6 py-4 bg-kawachi-dark/50 border border-kawachi-primary/20 rounded-xl text-white placeholder-gray-400 focus:outline-none focus:border-kawachi-primary focus:shadow-glow transition-all duration-300"
-                  required
-                />
-                <MagneticButton variant="primary" className="px-8">
-                  Subscribe
-                </MagneticButton>
-              </form>
-            </ScrollReveal>
-          </div>
-        </section>
-      </Layout>
-
-      {/* PDF Modal */}
-      {isPDFModalOpen && (
-        <motion.div
-          className="fixed inset-0 z-[10000] bg-black/90 backdrop-blur-intense flex items-center justify-center p-4"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-          onClick={() => setIsPDFModalOpen(false)}
-        >
-          <motion.div
-            className="bg-kawachi-dark border border-kawachi-primary/20 rounded-2xl w-full max-w-6xl h-[90vh] flex flex-col overflow-hidden shadow-epic"
-            initial={{ scale: 0.8, opacity: 0 }}
-            animate={{ scale: 1, opacity: 1 }}
-            exit={{ scale: 0.8, opacity: 0 }}
-            onClick={(e) => e.stopPropagation()}
+        <div className="max-w-4xl mx-auto text-center z-10">
+          <motion.h1
+            className="text-4xl md:text-6xl lg:text-7xl font-bold mb-6 bg-gradient-to-r from-kawachi-primary via-kawachi-secondary to-kawachi-accent bg-clip-text text-transparent leading-tight"
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
           >
-            <div className="flex items-center justify-between p-6 border-b border-kawachi-primary/20">
-              <h3 className="text-2xl font-semibold text-white">
-                Kawachi Infratech Company Profile
-              </h3>
+            Engineering Infrastructure for the Future
+          </motion.h1>
+
+          <motion.p
+            className="text-xl md:text-2xl text-gray-300 mb-4"
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.2 }}
+          >
+            Leading Construction & Infrastructure Development Across India
+          </motion.p>
+
+          <motion.p
+            className="text-lg text-gray-400 mb-12 max-w-3xl mx-auto"
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.4 }}
+          >
+            Kawachi Infratech delivers innovative, scalable, and sustainable
+            engineering solutions with cutting-edge technology, BIM integration,
+            and proven expertise.
+          </motion.p>
+
+          <motion.div
+            className="flex flex-col md:flex-row gap-6 justify-center items-center"
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.6 }}
+          >
+            <button
+              className="px-8 py-4 bg-gradient-to-r from-kawachi-primary to-kawachi-accent rounded-full text-white font-semibold text-lg hover:scale-105 transition-transform duration-300 shadow-epic"
+              data-magnetic
+            >
+              Explore Projects
+            </button>
+            <button
+              className="px-8 py-4 border-2 border-kawachi-primary text-kawachi-primary rounded-full font-semibold text-lg hover:bg-kawachi-primary hover:text-white transition-all duration-300"
+              data-magnetic
+            >
+              Our Services
+            </button>
+            <button
+              className="px-8 py-4 border-2 border-kawachi-secondary text-kawachi-secondary rounded-full font-semibold text-lg hover:bg-kawachi-secondary hover:text-white transition-all duration-300"
+              data-magnetic
+            >
+              Get Quote
+            </button>
+          </motion.div>
+        </div>
+      </section>
+
+      {/* Portfolio Section */}
+      <section id="portfolio" className="py-20 px-4">
+        <div className="max-w-7xl mx-auto">
+          <motion.div className="text-center mb-16" {...fadeInUp}>
+            <h2 className="text-4xl md:text-5xl font-bold mb-4 bg-gradient-to-r from-kawachi-secondary to-kawachi-accent bg-clip-text text-transparent">
+              Our Portfolio
+            </h2>
+            <p className="text-gray-400 text-lg max-w-2xl mx-auto">
+              Showcasing landmark infrastructure projects that demonstrate our
+              expertise and commitment to excellence
+            </p>
+          </motion.div>
+
+          <motion.div
+            className="grid md:grid-cols-2 lg:grid-cols-3 gap-8"
+            variants={stagger}
+            initial="initial"
+            whileInView="animate"
+            viewport={{ once: true }}
+          >
+            {[
+              {
+                title: "Delhi Metro Extension Phase 4",
+                category: "New Delhi",
+                description:
+                  "Underground metro line extension with 15 stations covering 28.9 km of advanced transit infrastructure.",
+                budget: "₹2200 Cr",
+                duration: "72 months",
+                technologies: [
+                  "Smart Traffic Systems",
+                  "Weather Monitoring",
+                  "Advanced BIM",
+                ],
+                image:
+                  "https://cdn.builder.io/api/v1/image/assets%2F204cc1a828544bc2a4495582b308d8c9%2Fc83e2e1936ba428c8669d2299c78cfc0?format=webp&width=800",
+              },
+              {
+                title: "Smart City Gurgaon Infrastructure",
+                category: "Gurgaon",
+                description:
+                  "Comprehensive smart city development including IoT sensors, traffic management, and sustainable urban planning.",
+                budget: "₹1800 Cr",
+                duration: "48 months",
+                technologies: [
+                  "IoT Integration",
+                  "Smart Lighting",
+                  "Traffic Management",
+                ],
+                image:
+                  "https://cdn.builder.io/api/v1/image/assets%2F204cc1a828544bc2a4495582b308d8c9%2F5aaa919b47ed4836a6b7658b40600d2f?format=webp&width=800",
+              },
+              {
+                title: "Yamuna Water Treatment Plant",
+                category: "Delhi",
+                description:
+                  "State-of-the-art water treatment facility serving 1.5 million residents with advanced purification technology.",
+                budget: "₹950 Cr",
+                duration: "36 months",
+                technologies: [
+                  "Water Purification",
+                  "Environmental Monitoring",
+                  "Automation",
+                ],
+                image:
+                  "https://cdn.builder.io/api/v1/image/assets%2F204cc1a828544bc2a4495582b308d8c9%2F430c545ffe4845f7a8050b36cc534e45?format=webp&width=800",
+              },
+              {
+                title: "National Highway 48 Expansion",
+                category: "Maharashtra",
+                description:
+                  "6-lane highway expansion with smart traffic management systems.",
+                budget: "₹2200 Cr",
+                duration: "72 months",
+                technologies: [
+                  "Smart Traffic Systems",
+                  "Weather Monitoring",
+                  "Advanced BIM",
+                ],
+                image:
+                  "https://cdn.builder.io/api/v1/image/assets%2F204cc1a828544bc2a4495582b308d8c9%2F02f47ea026744f86a57d03872c780656?format=webp&width=800",
+              },
+              {
+                title: "AIIMS Expansion Project",
+                category: "New Delhi",
+                description:
+                  "Modern healthcare facility with 1500 beds and advanced medical equipment.",
+                budget: "₹840 Cr",
+                duration: "42 months",
+                technologies: [
+                  "Green Building",
+                  "Advanced HVAC",
+                  "Digital Infrastructure",
+                ],
+                image:
+                  "https://cdn.builder.io/api/v1/image/assets%2F204cc1a828544bc2a4495582b308d8c9%2Fd71a338bd8934f35bebb91095e0dde25?format=webp&width=800",
+              },
+              {
+                title: "Renewable Energy Grid Integration",
+                category: "Rajasthan",
+                description:
+                  "Smart grid infrastructure for solar and wind energy integration.",
+                budget: "₹940 Cr",
+                duration: "30 months",
+                technologies: [
+                  "Smart Grid",
+                  "Energy Storage",
+                  "Grid Automation",
+                ],
+                image:
+                  "https://cdn.builder.io/api/v1/image/assets%2F204cc1a828544bc2a4495582b308d8c9%2F4d29fb48fdfe42fcac889ea18a502619?format=webp&width=800",
+              },
+            ].map((project, index) => (
+              <motion.div
+                key={index}
+                className="group relative bg-gradient-to-b from-gray-900/50 to-gray-900/80 backdrop-blur-sm rounded-2xl overflow-hidden border border-kawachi-primary/20 hover:border-kawachi-primary/50 transition-all duration-500 hover:scale-105"
+                variants={fadeInUp}
+              >
+                <div className="aspect-video overflow-hidden">
+                  <img
+                    src={project.image}
+                    alt={project.title}
+                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
+                  />
+                </div>
+                <div className="p-6">
+                  <div className="flex items-center gap-2 mb-2">
+                    <span className="text-xs px-3 py-1 bg-kawachi-primary/20 text-kawachi-primary rounded-full">
+                      {project.category}
+                    </span>
+                  </div>
+                  <h3 className="text-xl font-bold text-white mb-3">
+                    {project.title}
+                  </h3>
+                  <p className="text-gray-400 text-sm mb-4">
+                    {project.description}
+                  </p>
+
+                  <div className="grid grid-cols-2 gap-4 mb-4">
+                    <div>
+                      <p className="text-xs text-gray-500 uppercase tracking-wide">
+                        Budget
+                      </p>
+                      <p className="text-kawachi-primary font-bold">
+                        {project.budget}
+                      </p>
+                    </div>
+                    <div>
+                      <p className="text-xs text-gray-500 uppercase tracking-wide">
+                        Duration
+                      </p>
+                      <p className="text-kawachi-secondary font-bold">
+                        {project.duration}
+                      </p>
+                    </div>
+                  </div>
+
+                  <div className="flex flex-wrap gap-2">
+                    {project.technologies.map((tech, i) => (
+                      <span
+                        key={i}
+                        className="text-xs px-2 py-1 bg-kawachi-accent/10 text-kawachi-accent rounded border border-kawachi-accent/20"
+                      >
+                        {tech}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              </motion.div>
+            ))}
+          </motion.div>
+        </div>
+      </section>
+
+      {/* About Section */}
+      <section
+        id="about"
+        className="py-20 px-4 bg-gradient-to-b from-kawachi-space to-gray-900"
+      >
+        <div className="max-w-4xl mx-auto text-center">
+          <motion.div {...fadeInUp}>
+            <div className="w-20 h-20 mx-auto mb-8 bg-gradient-to-br from-kawachi-primary to-kawachi-secondary rounded-2xl flex items-center justify-center">
+              <svg
+                className="w-10 h-10 text-white"
+                fill="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
+              </svg>
+            </div>
+            <h2 className="text-4xl md:text-5xl font-bold mb-6 bg-gradient-to-r from-kawachi-primary via-kawachi-secondary to-kawachi-accent bg-clip-text text-transparent">
+              Kawachi Infratech Private Limited
+            </h2>
+            <p className="text-xl text-kawachi-secondary mb-8">
+              Engineering Infrastructure for the Future
+            </p>
+            <p className="text-lg text-gray-300 leading-relaxed max-w-3xl mx-auto">
+              We are a forward-thinking infrastructure company delivering
+              innovative, scalable, and sustainable engineering solutions across
+              India's public and private sectors. Since our incorporation in
+              2021, we have been committed to transforming the infrastructure
+              landscape with cutting-edge technology and engineering excellence.
+            </p>
+          </motion.div>
+
+          <motion.div
+            className="flex flex-col md:flex-row gap-6 justify-center mt-12"
+            {...fadeInUp}
+          >
+            <button
+              className="px-8 py-3 bg-gradient-to-r from-kawachi-primary to-kawachi-secondary rounded-full text-white font-medium"
+              data-magnetic
+            >
+              Company Profile
+            </button>
+            <button
+              className="px-8 py-3 border-2 border-kawachi-primary text-kawachi-primary rounded-full font-medium hover:bg-kawachi-primary hover:text-white transition-all duration-300"
+              data-magnetic
+            >
+              Get In Touch
+            </button>
+          </motion.div>
+        </div>
+      </section>
+
+      {/* Partners & Sponsors Section */}
+      <section id="sponsors" className="py-20 px-4">
+        <div className="max-w-6xl mx-auto">
+          <motion.div className="text-center mb-16" {...fadeInUp}>
+            <h2 className="text-4xl md:text-5xl font-bold mb-4 bg-gradient-to-r from-kawachi-secondary to-kawachi-accent bg-clip-text text-transparent">
+              Our Partners & Sponsors
+            </h2>
+            <p className="text-gray-400 text-lg">
+              Trusted partnerships with government agencies and leading
+              organizations
+            </p>
+          </motion.div>
+
+          <motion.div
+            className="grid md:grid-cols-2 lg:grid-cols-4 gap-6"
+            variants={stagger}
+            initial="initial"
+            whileInView="animate"
+            viewport={{ once: true }}
+          >
+            {[
+              {
+                title: "Ministry of Road Transport & Highways",
+                category: "Government Partner",
+                description:
+                  "Strategic partnership for highway infrastructure projects",
+              },
+              {
+                title: "Indian Railways",
+                category: "Infrastructure Partner",
+                description:
+                  "Collaboration on railway infrastructure development projects",
+              },
+              {
+                title: "Delhi Development Authority",
+                category: "Urban Development",
+                description: "Urban planning and development projects",
+              },
+              {
+                title: "Central Public Works Department",
+                category: "Public Works",
+                description: "Government building and infrastructure projects",
+              },
+            ].map((partner, index) => (
+              <motion.div
+                key={index}
+                className="p-6 bg-gradient-to-b from-gray-900/50 to-gray-900/80 backdrop-blur-sm rounded-2xl border border-kawachi-primary/20 hover:border-kawachi-primary/50 transition-all duration-300"
+                variants={fadeInUp}
+              >
+                <div className="mb-4">
+                  <span className="text-xs px-3 py-1 bg-kawachi-secondary/20 text-kawachi-secondary rounded-full">
+                    {partner.category}
+                  </span>
+                </div>
+                <h3 className="text-lg font-bold text-white mb-3">
+                  {partner.title}
+                </h3>
+                <p className="text-gray-400 text-sm">{partner.description}</p>
+              </motion.div>
+            ))}
+          </motion.div>
+        </div>
+      </section>
+
+      {/* FAQ Section */}
+      <section
+        id="faq"
+        className="py-20 px-4 bg-gradient-to-b from-gray-900 to-kawachi-space"
+      >
+        <div className="max-w-4xl mx-auto">
+          <motion.div className="text-center mb-16" {...fadeInUp}>
+            <h2 className="text-4xl md:text-5xl font-bold mb-4 bg-gradient-to-r from-kawachi-primary to-kawachi-secondary bg-clip-text text-transparent">
+              Frequently Asked Questions
+            </h2>
+            <p className="text-gray-400 text-lg">
+              Get answers to common questions about our services and
+              capabilities
+            </p>
+          </motion.div>
+
+          <motion.div
+            className="space-y-4"
+            variants={stagger}
+            initial="initial"
+            whileInView="animate"
+            viewport={{ once: true }}
+          >
+            {[
+              {
+                question:
+                  "What types of projects does Kawachi Infratech handle?",
+                answer:
+                  "We specialize in large-scale infrastructure projects including metro systems, highways, smart city development, water treatment plants, healthcare facilities, and renewable energy infrastructure across India.",
+              },
+              {
+                question:
+                  "What is Kawachi Infratech's approach to quality and safety?",
+                answer:
+                  "We implement rigorous quality control measures, follow international safety standards, and use advanced project management systems with real-time monitoring to ensure all projects meet the highest standards of excellence.",
+              },
+              {
+                question:
+                  "How does Kawachi Infratech ensure timely project delivery?",
+                answer:
+                  "We use advanced project management methodologies, BIM technology, and maintain strong partnerships with reliable suppliers and contractors to ensure projects are delivered on time and within budget.",
+              },
+            ].map((faq, index) => (
+              <motion.div
+                key={index}
+                className="border border-kawachi-primary/20 rounded-xl overflow-hidden bg-gray-900/50 backdrop-blur-sm"
+                variants={fadeInUp}
+              >
+                <button
+                  className="w-full p-6 text-left flex justify-between items-center hover:bg-kawachi-primary/5 transition-colors duration-300"
+                  onClick={() => setOpenFaq(openFaq === index ? null : index)}
+                >
+                  <span className="font-medium text-white">{faq.question}</span>
+                  <motion.svg
+                    className="w-5 h-5 text-kawachi-primary"
+                    animate={{ rotate: openFaq === index ? 180 : 0 }}
+                    transition={{ duration: 0.3 }}
+                    fill="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path d="M7 10l5 5 5-5z" />
+                  </motion.svg>
+                </button>
+                <motion.div
+                  initial={{ height: 0, opacity: 0 }}
+                  animate={{
+                    height: openFaq === index ? "auto" : 0,
+                    opacity: openFaq === index ? 1 : 0,
+                  }}
+                  transition={{ duration: 0.3 }}
+                  className="overflow-hidden"
+                >
+                  <div className="p-6 pt-0 text-gray-400">{faq.answer}</div>
+                </motion.div>
+              </motion.div>
+            ))}
+          </motion.div>
+        </div>
+      </section>
+
+      {/* News Section */}
+      <section id="news" className="py-20 px-4">
+        <div className="max-w-7xl mx-auto">
+          <motion.div className="text-center mb-16" {...fadeInUp}>
+            <h2 className="text-4xl md:text-5xl font-bold mb-4 bg-gradient-to-r from-kawachi-secondary to-kawachi-accent bg-clip-text text-transparent">
+              Latest News & Updates
+            </h2>
+            <p className="text-gray-400 text-lg">
+              Stay updated with our latest projects, achievements, and industry
+              developments
+            </p>
+          </motion.div>
+
+          <motion.div
+            className="grid md:grid-cols-2 lg:grid-cols-3 gap-8"
+            variants={stagger}
+            initial="initial"
+            whileInView="animate"
+            viewport={{ once: true }}
+          >
+            {[
+              {
+                title:
+                  "Kawachi Infratech Wins ₹1500 Cr Smart City Project in Pune",
+                category: "Awards",
+                excerpt:
+                  "Our company has been selected as the primary contractor for Pune's comprehensive smart city infrastructure development project, the largest single project to date.",
+                tags: ["BIM", "Technology", "Innovation"],
+                image:
+                  "https://cdn.builder.io/api/v1/image/assets%2F204cc1a828544bc2a4495582b308d8c9%2F5aea95f9c2cf4f38a1e78dea6e453dd7?format=webp&width=800",
+              },
+              {
+                title:
+                  "Completion of Delhi Metro Phase 4 Extension Ahead of Schedule",
+                category: "Projects",
+                excerpt:
+                  "The Delhi Metro Phase 4 extension is 6 months ahead of schedule, demonstrating our commitment to timely delivery and quality execution.",
+                tags: ["Metro", "Infrastructure", "Delhi"],
+                image:
+                  "https://cdn.builder.io/api/v1/image/assets%2F204cc1a828544bc2a4495582b308d8c9%2Fde31265f66214f3f9200a19a4559c036?format=webp&width=800",
+              },
+              {
+                title:
+                  "Kawachi Infratech Adopts Advanced BIM Technology for All Projects",
+                category: "Technology",
+                excerpt:
+                  "Implementation of Building Information Modeling across all projects enhances precision, reduces costs, and improves project coordination.",
+                tags: ["BIM", "Technology", "Innovation"],
+                image:
+                  "https://cdn.builder.io/api/v1/image/assets%2F204cc1a828544bc2a4495582b308d8c9%2F8c07eb617aec46e89c9737883b3d276e?format=webp&width=800",
+              },
+            ].map((article, index) => (
+              <motion.div
+                key={index}
+                className="group bg-gradient-to-b from-gray-900/50 to-gray-900/80 backdrop-blur-sm rounded-2xl overflow-hidden border border-kawachi-primary/20 hover:border-kawachi-primary/50 transition-all duration-500 hover:scale-105"
+                variants={fadeInUp}
+              >
+                <div className="aspect-video overflow-hidden">
+                  <img
+                    src={article.image}
+                    alt={article.title}
+                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
+                  />
+                </div>
+                <div className="p-6">
+                  <div className="flex items-center gap-2 mb-3">
+                    <span className="text-xs px-3 py-1 bg-kawachi-accent/20 text-kawachi-accent rounded-full">
+                      {article.category}
+                    </span>
+                  </div>
+                  <h3 className="text-xl font-bold text-white mb-3 group-hover:text-kawachi-primary transition-colors duration-300">
+                    {article.title}
+                  </h3>
+                  <p className="text-gray-400 text-sm mb-4">
+                    {article.excerpt}
+                  </p>
+                  <div className="flex flex-wrap gap-2">
+                    {article.tags.map((tag, i) => (
+                      <span
+                        key={i}
+                        className="text-xs px-2 py-1 bg-kawachi-primary/10 text-kawachi-primary rounded border border-kawachi-primary/20"
+                      >
+                        {tag}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              </motion.div>
+            ))}
+          </motion.div>
+        </div>
+      </section>
+
+      {/* Newsletter Section */}
+      <section className="py-20 px-4 bg-gradient-to-b from-kawachi-space to-gray-900">
+        <div className="max-w-4xl mx-auto text-center">
+          <motion.div {...fadeInUp}>
+            <h2 className="text-4xl md:text-5xl font-bold mb-4 bg-gradient-to-r from-kawachi-primary to-kawachi-secondary bg-clip-text text-transparent">
+              Stay Updated
+            </h2>
+            <p className="text-gray-400 text-lg mb-8">
+              Subscribe to our newsletter for the latest project updates,
+              industry insights, and company news
+            </p>
+            <div className="flex flex-col md:flex-row gap-4 justify-center max-w-lg mx-auto">
+              <input
+                type="email"
+                placeholder="Enter your email address"
+                className="flex-1 px-6 py-3 bg-gray-900/50 border border-kawachi-primary/30 rounded-full text-white placeholder-gray-500 focus:outline-none focus:border-kawachi-primary transition-colors duration-300"
+              />
               <button
-                onClick={() => setIsPDFModalOpen(false)}
-                className="w-10 h-10 rounded-full bg-red-500/20 hover:bg-red-500/30 text-red-400 hover:text-red-300 transition-all duration-300 flex items-center justify-center text-xl"
+                className="px-8 py-3 bg-gradient-to-r from-kawachi-primary to-kawachi-secondary rounded-full text-white font-medium hover:scale-105 transition-transform duration-300"
                 data-magnetic
               >
-                ×
+                Subscribe
               </button>
             </div>
-            <div className="flex-1">
-              <iframe
-                src="https://adityabhardwaj1234.github.io/KawachiWeb/Kawachi%20Infratech%20private%20limited_Profile1.1.pdf"
-                className="w-full h-full border-none"
-                title="Kawachi Infratech Company Profile"
-              />
-            </div>
           </motion.div>
-        </motion.div>
-      )}
-    </>
+        </div>
+      </section>
+
+      {/* Contact Section */}
+      <section id="contact" className="py-20 px-4">
+        <div className="max-w-6xl mx-auto">
+          <motion.div className="text-center mb-16" {...fadeInUp}>
+            <h2 className="text-4xl md:text-5xl font-bold mb-4 bg-gradient-to-r from-kawachi-primary via-kawachi-secondary to-kawachi-accent bg-clip-text text-transparent">
+              Let's Build Something Amazing Together
+            </h2>
+            <p className="text-gray-400 text-lg">
+              Ready to start your next infrastructure project? Get in touch with
+              our team.
+            </p>
+          </motion.div>
+
+          <div className="grid lg:grid-cols-2 gap-12">
+            <motion.div {...fadeInUp}>
+              <h3 className="text-2xl font-bold text-white mb-8">
+                Contact Information
+              </h3>
+              <div className="space-y-6">
+                <div className="flex items-start gap-4">
+                  <div className="w-6 h-6 mt-1 text-kawachi-primary">
+                    <svg fill="currentColor" viewBox="0 0 24 24">
+                      <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z" />
+                    </svg>
+                  </div>
+                  <div>
+                    <h4 className="font-semibold text-white mb-1">
+                      Head Office
+                    </h4>
+                    <p className="text-gray-400">New Delhi, India</p>
+                  </div>
+                </div>
+                <div className="flex items-start gap-4">
+                  <div className="w-6 h-6 mt-1 text-kawachi-primary">
+                    <svg fill="currentColor" viewBox="0 0 24 24">
+                      <path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z" />
+                    </svg>
+                  </div>
+                  <div>
+                    <h4 className="font-semibold text-white mb-1">Email</h4>
+                    <p className="text-gray-400">info@kawachiinfratech.com</p>
+                  </div>
+                </div>
+              </div>
+            </motion.div>
+
+            <motion.div {...fadeInUp}>
+              <h3 className="text-2xl font-bold text-white mb-8">
+                Send us a Message
+              </h3>
+              <form className="space-y-6">
+                <div className="grid md:grid-cols-2 gap-6">
+                  <input
+                    type="text"
+                    placeholder="Your Name"
+                    className="px-4 py-3 bg-gray-900/50 border border-kawachi-primary/30 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-kawachi-primary transition-colors duration-300"
+                  />
+                  <input
+                    type="email"
+                    placeholder="Your Email"
+                    className="px-4 py-3 bg-gray-900/50 border border-kawachi-primary/30 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-kawachi-primary transition-colors duration-300"
+                  />
+                </div>
+                <textarea
+                  rows={5}
+                  placeholder="Your Message"
+                  className="w-full px-4 py-3 bg-gray-900/50 border border-kawachi-primary/30 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-kawachi-primary transition-colors duration-300 resize-none"
+                ></textarea>
+                <button
+                  type="submit"
+                  className="w-full py-4 bg-gradient-to-r from-kawachi-primary to-kawachi-accent rounded-lg text-white font-semibold hover:scale-105 transition-transform duration-300"
+                  data-magnetic
+                >
+                  Send Message
+                </button>
+              </form>
+            </motion.div>
+          </div>
+        </div>
+      </section>
+
+      {/* Footer */}
+      <footer className="py-12 px-4 border-t border-kawachi-primary/20 bg-kawachi-darker">
+        <div className="max-w-6xl mx-auto text-center">
+          <div className="flex items-center justify-center space-x-3 mb-6">
+            <div className="w-10 h-10 bg-gradient-to-br from-kawachi-primary via-kawachi-secondary to-kawachi-accent rounded-lg flex items-center justify-center">
+              <span className="text-white font-bold text-lg">K</span>
+            </div>
+            <span className="text-kawachi-primary font-bold text-xl">
+              Kawachi Infratech
+            </span>
+          </div>
+          <p className="text-gray-400 mb-4">
+            Engineering Infrastructure for the Future
+          </p>
+          <p className="text-gray-500 text-sm">
+            © 2024 Kawachi Infratech Private Limited. All rights reserved.
+          </p>
+        </div>
+      </footer>
+    </div>
   );
 }
