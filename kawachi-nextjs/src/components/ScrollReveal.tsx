@@ -123,11 +123,12 @@ export const usePerformanceMonitoring = () => {
       const observer = new PerformanceObserver((list) => {
         for (const entry of list.getEntries()) {
           if (entry.entryType === "navigation") {
+            const navEntry = entry as PerformanceNavigationTiming;
             console.log("Navigation Performance:", {
               domContentLoaded:
-                entry.domContentLoadedEventEnd -
-                entry.domContentLoadedEventStart,
-              loadComplete: entry.loadEventEnd - entry.loadEventStart,
+                navEntry.domContentLoadedEventEnd -
+                navEntry.domContentLoadedEventStart,
+              loadComplete: navEntry.loadEventEnd - navEntry.loadEventStart,
             });
           }
         }
