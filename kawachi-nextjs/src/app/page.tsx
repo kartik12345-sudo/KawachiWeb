@@ -107,7 +107,10 @@ export default function HomePage() {
       </section>
 
       {/* Portfolio Section */}
-      <section id="portfolio" className="py-20 px-4">
+      <section
+        id="portfolio"
+        className="py-32 px-4 bg-gradient-to-b from-kawachi-space to-gray-900"
+      >
         <div className="max-w-7xl mx-auto">
           <motion.div className="text-center mb-16" {...fadeInUp}>
             <h2 className="text-4xl md:text-5xl font-bold mb-4 bg-gradient-to-r from-kawachi-secondary to-kawachi-accent bg-clip-text text-transparent">
