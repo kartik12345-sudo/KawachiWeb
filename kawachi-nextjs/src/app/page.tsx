@@ -431,8 +431,8 @@ export default function HomePage() {
             <p className="text-lg text-gray-300 leading-relaxed max-w-3xl mx-auto">
               We are a forward-thinking infrastructure company delivering
               innovative, scalable, and sustainable engineering solutions across
-              India's public and private sectors. Since our incorporation in
-              2021, we have been committed to transforming the infrastructure
+              India&apos;s public and private sectors. Since our incorporation
+              in 2021, we have been committed to transforming the infrastructure
               landscape with cutting-edge technology and engineering excellence.
             </p>
           </motion.div>
