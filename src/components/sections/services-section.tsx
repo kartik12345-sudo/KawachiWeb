@@ -3,7 +3,8 @@
 import { useRef } from 'react';
 import { Building2, Wrench, DraftingCompass, ClipboardCheck } from 'lucide-react';
 import { Card, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
-import { motion, useInView } from 'framer-motion';
+import { motion } from 'framer-motion';
+import { useInView } from 'framer-motion';
 
 const services = [
   {
@@ -42,10 +43,11 @@ export function ServicesSection() {
   };
 
   const itemVariants = {
-    hidden: { opacity: 0, y: 50 },
+    hidden: { opacity: 0, y: 50, scale: 0.95 },
     visible: {
       opacity: 1,
       y: 0,
+      scale: 1,
       transition: {
         duration: 0.6,
         ease: 'easeOut',
@@ -54,7 +56,7 @@ export function ServicesSection() {
   };
 
   return (
-    <section id="services" className="py-20 md:py-32 bg-background overflow-hidden" ref={ref}>
+    <section id="services" className="py-20 md:py-32 bg-secondary/30 overflow-hidden" ref={ref}>
       <div className="container mx-auto px-4">
         <motion.div 
           className="text-center max-w-2xl mx-auto mb-16"
@@ -81,9 +83,12 @@ export function ServicesSection() {
             <motion.div key={service.title} variants={itemVariants}>
               <Card className="text-center h-full glassmorphic group hover:-translate-y-2 transition-transform duration-300 hover:shadow-2xl hover:shadow-cyan-500/10">
                 <CardHeader className="items-center p-6 md:p-8">
-                  <div className="p-4 bg-primary/10 rounded-full mb-4 border border-primary/20 transition-all duration-300 group-hover:scale-110 group-hover:bg-primary/20">
+                  <motion.div 
+                    className="p-4 bg-primary/10 rounded-full mb-4 border border-primary/20 transition-all duration-300 group-hover:scale-110 group-hover:bg-primary/20"
+                    whileHover={{ rotate: 15 }}
+                  >
                     <service.icon className="h-8 w-8 text-primary icon-glow transition-all duration-300 group-hover:text-white" />
-                  </div>
+                  </motion.div>
                   <CardTitle className="text-xl">{service.title}</CardTitle>
                   <CardDescription className="pt-2 text-muted-foreground">{service.description}</CardDescription>
                 </CardHeader>

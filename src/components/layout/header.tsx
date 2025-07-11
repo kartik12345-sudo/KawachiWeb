@@ -38,9 +38,18 @@ export function Header() {
       y: 0,
       transition: {
         duration: 0.5,
-        ease: "easeInOut"
+        ease: "easeInOut",
+        staggerChildren: 0.1,
       } 
     },
+    exit: {
+      opacity: 0,
+      y: "-100%",
+      transition: {
+        duration: 0.3,
+        ease: "easeInOut"
+      }
+    }
   };
 
   const navItemVariants = {
@@ -58,7 +67,7 @@ export function Header() {
       >
         <div className="container mx-auto px-4">
           <div className="flex h-24 items-center justify-between">
-            <Link href="#home">
+            <Link href="#home" className="relative z-10">
               <Logo />
             </Link>
             <nav className="hidden md:flex items-center gap-8">
@@ -66,7 +75,7 @@ export function Header() {
                 <Link
                   key={link.href}
                   href={link.href}
-                  className="text-sm font-medium text-foreground/80 transition-colors hover:text-foreground hover:text-shadow-[0_0_8px_hsl(var(--primary))]"
+                  className="text-sm font-medium text-foreground/80 transition-colors hover:text-primary hover:drop-shadow-[0_0_8px_hsl(var(--primary))]"
                 >
                   {link.label}
                 </Link>
@@ -106,14 +115,13 @@ export function Header() {
             variants={menuVariants}
             initial="hidden"
             animate="visible"
-            exit="hidden"
-            className="fixed inset-0 z-40 bg-background/90 backdrop-blur-xl md:hidden"
+            exit="exit"
+            className="fixed inset-0 z-40 bg-background/95 backdrop-blur-xl md:hidden"
             onClick={() => setIsMenuOpen(false)}
           >
             <div className="container mx-auto px-4 flex flex-col items-center justify-center h-full">
               <motion.nav 
                 className="flex flex-col items-center gap-8"
-                variants={{ visible: { transition: { staggerChildren: 0.1 } } }}
               >
                 {navLinks.map((link) => (
                   <motion.div key={link.href} variants={navItemVariants}>

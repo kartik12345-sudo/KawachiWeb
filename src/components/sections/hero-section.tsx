@@ -1,12 +1,25 @@
 "use client";
 
+import React from 'react';
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
 import { cn } from "@/lib/utils";
 
-const Orb = ({ className, style }: { className: string, style?: React.CSSProperties }) => {
-  return <motion.div className={cn("absolute rounded-full bg-gradient-to-br from-cyan-500/30 to-purple-500/30 blur-3xl", className)} style={style} />;
+const Orb = ({ className, size, top, left, animation }: { className?: string, size: number, top: string, left: string, animation: string }) => {
+  const [style, setStyle] = React.useState({});
+
+  React.useEffect(() => {
+    setStyle({
+      width: `${size}rem`,
+      height: `${size}rem`,
+      top,
+      left,
+      animation: `${animation} 6s ease-in-out infinite`,
+    });
+  }, [size, top, left, animation]);
+  
+  return <div className={cn("absolute rounded-full bg-gradient-to-br from-cyan-500/30 to-purple-500/30 blur-3xl", className)} style={style} />;
 };
 
 export function HeroSection() {
@@ -38,10 +51,10 @@ export function HeroSection() {
       <div className="absolute inset-0 bg-background z-0" />
       
       {/* Animated Orbs */}
-      <Orb className="w-72 h-72 top-[5%] left-[10%] animate-float" />
-      <Orb className="w-56 h-56 top-[15%] right-[15%] animate-float-slow" />
-      <Orb className="w-48 h-48 bottom-[25%] left-[25%] animate-float-fast" />
-      <Orb className="w-64 h-64 bottom-[10%] right-[20%] animate-float" />
+      <Orb size={18} top="5%" left="10%" animation="float" />
+      <Orb size={14} top="15%" left="80%" animation="float" />
+      <Orb size={12} top="70%" left="25%" animation="float" />
+      <Orb size={16} top="60%" left="90%" animation="float" />
       <div className="absolute inset-0 bg-black/30 z-10" />
 
       <motion.div 
@@ -60,7 +73,7 @@ export function HeroSection() {
           </motion.h1>
 
           <motion.div 
-            className="p-6 md:p-8 rounded-xl neumorphic-inset max-w-3xl mx-auto mb-10"
+            className="p-6 md:p-8 rounded-xl glassmorphic max-w-3xl mx-auto mb-10"
             variants={itemVariants}
           >
             <p className="text-lg md:text-xl text-foreground/80 max-w-2xl mx-auto mb-4">

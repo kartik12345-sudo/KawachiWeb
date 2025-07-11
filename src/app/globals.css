@@ -4,6 +4,41 @@
 
 @layer base {
   :root {
+    --background: 180 5% 96%; /* #f3f5f5 - Very light teal for light mode */
+    --foreground: 224 71% 4%; /* #010816 - Dark blue for light mode text */
+
+    --card: 180 5% 100%; /* #ffffff */
+    --card-foreground: 224 71% 4%; /* #010816 */
+
+    --popover: 180 5% 100%; /* #ffffff */
+    --popover-foreground: 224 71% 4%; /* #010816 */
+
+    --primary: 180 100% 25%; /* #008080 - Deep Teal */
+    --primary-foreground: 210 40% 98%; /* #f9fafb */
+
+    --secondary: 180 10% 90%; /* #e0e5e5 */
+    --secondary-foreground: 180 100% 25%; /* #008080 */
+
+    --muted: 180 10% 85%; /* #d1d9d9 */
+    --muted-foreground: 224 20% 40%; /* #555c6b */
+    
+    --accent: 160 100% 32%; /* #00A36C - Blue-Green */
+    --accent-foreground: 210 40% 98%; /* #f9fafb */
+
+    --destructive: 0 84% 60%; /* #f87171 */
+    --destructive-foreground: 210 40% 98%; /* #f9fafb */
+
+    --border: 180 10% 80%; /* #c4cfcf */
+    --input: 180 10% 85%; /* #d1d9d9 */
+    --ring: 180 100% 25%; /* #008080 */
+
+    --radius: 0.5rem;
+
+    --gradient-from: 180 100% 25%; /* #008080 */
+    --gradient-to: 160 100% 32%; /* #00A36C */
+  }
+
+  .dark {
     --background: 224 71% 4%; /* #010816 */
     --foreground: 210 40% 98%; /* #f9fafb */
 
@@ -32,8 +67,6 @@
     --input: 217 33% 17%; /* #1c253c */
     --ring: 180 100% 50%; /* #00FFFF */
 
-    --radius: 0.75rem;
-
     --gradient-from: 180 100% 50%; /* #00FFFF */
     --gradient-to: 260 100% 60%; /* #5500FF - A deep blue/purple */
   }
@@ -45,6 +78,7 @@
   }
   body {
     @apply bg-background text-foreground;
+    font-family: 'PT Sans', sans-serif;
   }
 }
 
@@ -124,10 +158,14 @@
     }
   }
 
-  /* Fade-in animations for scroll reveals */
   .fade-in-up {
     opacity: 0;
     transform: translateY(20px);
     transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+  }
+  
+  .is-visible .animate-in-view {
+    opacity: 1;
+    transform: translateY(0);
   }
 }
