@@ -3,7 +3,8 @@ name: Deploy Next.js to GitHub Pages
 on:
   push:
     branches: [main, master]
-  workflow_dispatch:
+  pull_request:
+    branches: [main, master]
 
 permissions:
   contents: read
@@ -30,13 +31,11 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Build application
+      - name: Build with Next.js
         run: npm run build
         env:
           NODE_ENV: production
-
-      - name: Add .nojekyll file
-        run: touch ./out/.nojekyll
+          GITHUB_ACTIONS: true
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
