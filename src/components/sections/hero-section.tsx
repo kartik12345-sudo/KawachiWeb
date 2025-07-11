@@ -3,9 +3,10 @@
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { useEffect, useState } from "react";
+import { cn } from "@/lib/utils";
 
-const Orb = ({ className }: { className: string }) => {
-  return <div className={`absolute rounded-full bg-cyan-500/20 blur-xl animate-float ${className}`} />;
+const Orb = ({ className, style }: { className: string, style?: React.CSSProperties }) => {
+  return <div className={cn("absolute rounded-full bg-cyan-500/20 blur-xl animate-float", className)} style={style} />;
 };
 
 export function HeroSection() {
