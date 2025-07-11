@@ -1,5 +1,8 @@
 import type { NextConfig } from "next";
 
+const isProd = process.env.NODE_ENV === "production";
+const isGithubActions = process.env.GITHUB_ACTIONS === "true";
+
 const nextConfig: NextConfig = {
   output: "export",
   trailingSlash: true,
@@ -8,8 +11,12 @@ const nextConfig: NextConfig = {
   images: {
     unoptimized: true,
   },
-  assetPrefix: process.env.NODE_ENV === "production" ? "/KawachiWeb" : "",
-  basePath: process.env.NODE_ENV === "production" ? "/KawachiWeb" : "",
+  // Only set these for GitHub Pages deployment
+  ...(isProd &&
+    isGithubActions && {
+      assetPrefix: "/KawachiWeb",
+      basePath: "/KawachiWeb",
+    }),
 };
 
 export default nextConfig;
