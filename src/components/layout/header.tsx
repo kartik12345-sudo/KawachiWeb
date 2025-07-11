@@ -13,8 +13,8 @@ const navLinks = [
   { href: "#services", label: "Services" },
   { href: "#projects", label: "Portfolio" },
   { href: "#about", label: "About" },
+  { href: "#sponsors", label: "Sponsors" },
   { href: "#news", label: "News" },
-  { href: "#contact", label: "Contact" },
 ];
 
 export function Header() {
@@ -62,7 +62,7 @@ export function Header() {
       <header
         className={cn(
           "fixed top-0 left-0 right-0 z-50 transition-all duration-300",
-          isScrolled ? "bg-background/80 shadow-md backdrop-blur-md border-b border-white/10" : "bg-transparent"
+          isScrolled ? "bg-background/80 shadow-md backdrop-blur-md border-b border-cyan-400/20" : "bg-transparent"
         )}
       >
         <div className="container mx-auto px-4">
@@ -82,8 +82,8 @@ export function Header() {
               ))}
             </nav>
             <div className="flex items-center gap-4">
-               <Button asChild className="hidden md:inline-flex btn-gradient rounded-lg shadow-lg shadow-cyan-500/20 hover:shadow-cyan-500/40">
-                <Link href="#contact">Get a Quote</Link>
+               <Button asChild className="hidden md:inline-flex btn-gradient-contact rounded-lg shadow-lg shadow-cyan-500/20 hover:shadow-cyan-500/40">
+                <Link href="#contact">Contact</Link>
               </Button>
               <Button
                 variant="ghost"
@@ -136,8 +136,8 @@ export function Header() {
                 ))}
               </motion.nav>
               <motion.div variants={navItemVariants} className="mt-12">
-                <Button asChild className="btn-gradient rounded-lg shadow-lg shadow-cyan-500/20" size="lg" onClick={() => setIsMenuOpen(false)}>
-                  <Link href="#contact">Get a Quote</Link>
+                <Button asChild className="btn-gradient-contact rounded-lg shadow-lg shadow-cyan-500/20" size="lg" onClick={() => setIsMenuOpen(false)}>
+                  <Link href="#contact">Contact</Link>
                 </Button>
               </motion.div>
             </div>

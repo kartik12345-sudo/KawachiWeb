@@ -4,14 +4,14 @@ import { cn } from "@/lib/utils";
 export function Logo(props: SVGProps<SVGSVGElement>) {
   return (
     <div className="flex items-center gap-2">
-      <div className={cn("p-2 rounded-lg bg-gradient-to-br from-cyan-400 to-fuchsia-500", props.className)}>
+      <div className={cn("p-2 rounded-lg bg-gradient-to-br from-cyan-400 to-fuchsia-500 shadow-[0_0_15px_theme(colors.cyan.400),0_0_25px_theme(colors.fuchsia.500)]", props.className)}>
         <svg
           xmlns="http://www.w3.org/2000/svg"
           width="24"
           height="24"
           viewBox="0 0 24 24"
           fill="none"
-          stroke="currentColor"
+          stroke="white"
           strokeWidth="2"
           strokeLinecap="round"
           strokeLinejoin="round"
@@ -23,7 +23,7 @@ export function Logo(props: SVGProps<SVGSVGElement>) {
           <path d="M17 19h4"></path>
         </svg>
       </div>
-      <span className="font-bold text-lg text-white">Kawachi</span>
+      <span className="font-bold text-xl text-white">Kawachi</span>
     </div>
   );
 }

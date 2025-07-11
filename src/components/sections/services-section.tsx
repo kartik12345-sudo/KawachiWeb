@@ -3,8 +3,7 @@
 import { useRef } from 'react';
 import { Building2, Wrench, DraftingCompass, ClipboardCheck } from 'lucide-react';
 import { Card, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
-import { motion } from 'framer-motion';
-import { useInView } from 'framer-motion';
+import { motion, useInView } from 'framer-motion';
 
 const services = [
   {

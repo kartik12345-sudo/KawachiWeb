@@ -4,38 +4,39 @@
 
 @layer base {
   :root {
-    --background: 180 5% 96%; /* #f3f5f5 - Very light teal for light mode */
-    --foreground: 224 71% 4%; /* #010816 - Dark blue for light mode text */
+    --background: 224 71% 4%; /* #010816 */
+    --foreground: 210 40% 98%; /* #f9fafb */
 
-    --card: 180 5% 100%; /* #ffffff */
-    --card-foreground: 224 71% 4%; /* #010816 */
+    --card: 222 84% 5%; /* #020c14 */
+    --card-foreground: 210 40% 98%; /* #f9fafb */
 
-    --popover: 180 5% 100%; /* #ffffff */
-    --popover-foreground: 224 71% 4%; /* #010816 */
+    --popover: 222 84% 5%; /* #020c14 */
+    --popover-foreground: 210 40% 98%; /* #f9fafb */
 
-    --primary: 180 100% 25%; /* #008080 - Deep Teal */
-    --primary-foreground: 210 40% 98%; /* #f9fafb */
+    --primary: 180 100% 50%; /* #00FFFF - Cyan */
+    --primary-foreground: 224 71% 4%; /* #010816 */
 
-    --secondary: 180 10% 90%; /* #e0e5e5 */
-    --secondary-foreground: 180 100% 25%; /* #008080 */
+    --secondary: 217 33% 17%; /* #1c253c */
+    --secondary-foreground: 210 40% 98%; /* #f9fafb */
 
-    --muted: 180 10% 85%; /* #d1d9d9 */
-    --muted-foreground: 224 20% 40%; /* #555c6b */
+    --muted: 217 33% 17%; /* #1c253c */
+    --muted-foreground: 215 20% 65%; /* #9aa3b8 */
     
-    --accent: 160 100% 32%; /* #00A36C - Blue-Green */
-    --accent-foreground: 210 40% 98%; /* #f9fafb */
+    --accent: 158 98% 51%; /* #00F5A0 - Bright Green/Teal */
+    --accent-foreground: 224 71% 4%; /* #010816 */
 
-    --destructive: 0 84% 60%; /* #f87171 */
-    --destructive-foreground: 210 40% 98%; /* #f9fafb */
+    --destructive: 0 63% 31%; /* #991b1b */
+    --destructive-foreground: 0 0% 98%; /* #fafafa */
 
-    --border: 180 10% 80%; /* #c4cfcf */
-    --input: 180 10% 85%; /* #d1d9d9 */
-    --ring: 180 100% 25%; /* #008080 */
+    --border: 180 100% 50%; /* #00FFFF - Cyan */
+    --input: 217 33% 17%; /* #1c253c */
+    --ring: 180 100% 50%; /* #00FFFF */
 
     --radius: 0.5rem;
 
-    --gradient-from: 180 100% 25%; /* #008080 */
-    --gradient-to: 160 100% 32%; /* #00A36C */
+    --gradient-from: 180 100% 50%; /* #00FFFF - Cyan */
+    --gradient-to: 260 100% 60%; /* #5500FF - A deep blue/purple */
+    --gradient-via: 300 100% 50%; /* #FF00FF - Magenta */
   }
 
   .dark {
@@ -66,9 +67,6 @@
     --border: 180 100% 50%; /* #00FFFF - Cyan */
     --input: 217 33% 17%; /* #1c253c */
     --ring: 180 100% 50%; /* #00FFFF */
-
-    --gradient-from: 180 100% 50%; /* #00FFFF */
-    --gradient-to: 260 100% 60%; /* #5500FF - A deep blue/purple */
   }
 }
 
@@ -84,11 +82,15 @@
 
 @layer utilities {
   .text-gradient {
-    @apply bg-clip-text text-transparent bg-gradient-to-r from-[hsl(var(--gradient-from))] to-[hsl(var(--gradient-to))];
+    @apply bg-clip-text text-transparent bg-gradient-to-r from-[hsl(var(--gradient-from))] via-[hsl(var(--gradient-via))] to-[hsl(var(--gradient-via))];
   }
 
   .btn-gradient {
-    @apply text-white bg-gradient-to-r from-[hsl(var(--gradient-from))] to-[hsl(var(--gradient-to))] transition-all duration-300 ease-in-out bg-[length:200%_auto] hover:bg-right;
+    @apply text-white bg-gradient-to-r from-[hsl(var(--gradient-from))] to-[hsl(var(--gradient-via))] transition-all duration-300 ease-in-out bg-[length:200%_auto] hover:bg-right;
+  }
+  
+  .btn-gradient-contact {
+    @apply text-white bg-gradient-to-r from-cyan-400 to-fuchsia-500 transition-all duration-300 ease-in-out bg-[length:200%_auto] hover:bg-right;
   }
 
   .animate-float {
@@ -167,5 +169,11 @@
   .is-visible .animate-in-view {
     opacity: 1;
     transform: translateY(0);
+  }
+
+  .text-gradient-hero {
+    background: linear-gradient(90deg, #00FFFF, #FF00FF);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
   }
 }
