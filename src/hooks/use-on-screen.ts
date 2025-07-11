@@ -10,8 +10,7 @@ export function useOnScreen(ref: RefObject<HTMLElement>, options?: IntersectionO
       ([entry]) => {
         if (entry.isIntersecting) {
             setIntersecting(true);
-            // Optional: unobserve after it's visible once
-            // observer.unobserve(entry.target);
+            observer.unobserve(entry.target);
         }
       },
       {

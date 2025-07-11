@@ -34,7 +34,7 @@ export function NewsletterSection() {
         <div className="relative bg-primary text-primary-foreground p-8 md:p-16 rounded-lg overflow-hidden">
           <div className="absolute inset-0 opacity-10">
             <Image 
-                src="https://placehold.co/1200x400.png"
+                src="https://images.unsplash.com/photo-1543286386-713bdd548da4?q=80&w=1200&h=400&fit=crop"
                 data-ai-hint="blueprint lines"
                 alt="Blueprint background"
                 fill

@@ -9,7 +9,7 @@ import { useOnScreen } from '@/hooks/use-on-screen';
 
 export function AboutSection() {
   const ref = useRef<HTMLDivElement>(null);
-  const isVisible = useOnScreen(ref);
+  const isVisible = useOnScreen(ref, { threshold: 0.2 });
 
   const keyPoints = [
     "Commitment to Quality",
@@ -18,15 +18,15 @@ export function AboutSection() {
   ];
 
   return (
-    <section id="about" className="py-20 md:py-32 bg-background" ref={ref}>
+    <section id="about" className="py-20 md:py-32 bg-background overflow-hidden" ref={ref}>
       <div className="container mx-auto px-4">
         <div className="grid md:grid-cols-2 gap-12 lg:gap-20 items-center">
           <div className={isVisible ? 'is-visible' : ''}>
             <div className="animate-in-view" style={{ transitionDelay: '200ms' }}>
               <Image
-                src="https://placehold.co/600x700.png"
+                src="https://images.unsplash.com/photo-1541888946425-d81bb19240f5?q=80&w=600&h=700&fit=crop"
                 alt="Construction team meeting"
-                data-ai-hint="construction team meeting"
+                data-ai-hint="construction team"
                 width={600}
                 height={700}
                 className="rounded-lg shadow-2xl object-cover w-full h-full"

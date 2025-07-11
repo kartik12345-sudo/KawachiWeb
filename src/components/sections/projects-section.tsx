@@ -13,34 +13,34 @@ const projects = [
     title: 'Skylark Bridge',
     location: 'Metropolis, USA',
     category: 'Infrastructure',
-    image: { src: 'https://placehold.co/600x400.png', hint: 'suspension bridge' },
+    image: { src: 'https://images.unsplash.com/photo-1429041966141-44d228a42775?q=80&w=600&h=400&fit=crop', hint: 'suspension bridge' },
   },
   {
     title: 'Apex Tower',
     location: 'Gotham City, USA',
     category: 'Commercial',
-    image: { src: 'https://placehold.co/600x400.png', hint: 'modern skyscraper' },
+    image: { src: 'https://images.unsplash.com/photo-1582211516142-a0a149a46327?q=80&w=600&h=400&fit=crop', hint: 'modern skyscraper' },
   },
   {
     title: 'Coastal Highway Expansion',
     location: 'Star City, USA',
     category: 'Transportation',
-    image: { src: 'https://placehold.co/600x400.png', hint: 'coastal highway' },
+    image: { src: 'https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?q=80&w=600&h=400&fit=crop', hint: 'coastal highway' },
   },
   {
     title: 'Olympus Stadium',
     location: 'Central City, USA',
     category: 'Recreational',
-    image: { src: 'https://placehold.co/600x400.png', hint: 'sports stadium' },
+    image: { src: 'https://images.unsplash.com/photo-1596249313364-24538b726c59?q=80&w=600&h=400&fit=crop', hint: 'sports stadium' },
   },
 ];
 
 export function ProjectsSection() {
   const ref = useRef<HTMLDivElement>(null);
-  const isVisible = useOnScreen(ref);
+  const isVisible = useOnScreen(ref, { threshold: 0.1 });
 
   return (
-    <section id="projects" className="py-20 md:py-32 bg-background" ref={ref}>
+    <section id="projects" className="py-20 md:py-32 bg-background overflow-hidden" ref={ref}>
       <div className="container mx-auto px-4">
         <div className="text-center max-w-2xl mx-auto mb-16">
           <h2 className="text-sm font-bold uppercase text-primary mb-2">Our Portfolio</h2>

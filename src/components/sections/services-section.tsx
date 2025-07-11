@@ -30,10 +30,10 @@ const services = [
 
 export function ServicesSection() {
   const ref = useRef<HTMLDivElement>(null);
-  const isVisible = useOnScreen(ref);
+  const isVisible = useOnScreen(ref, { threshold: 0.1 });
 
   return (
-    <section id="services" className="py-20 md:py-32 bg-secondary" ref={ref}>
+    <section id="services" className="py-20 md:py-32 bg-secondary overflow-hidden" ref={ref}>
       <div className="container mx-auto px-4">
         <div className="text-center max-w-2xl mx-auto mb-16">
           <h2 className="text-sm font-bold uppercase text-primary mb-2">Our Services</h2>
