@@ -23,7 +23,7 @@ export default function Navigation({ className = "" }: NavigationProps) {
 
   const menuItems = [
     { label: "Home", href: "#home" },
-    { label: "Services", href: "#contact" },
+    { label: "Services", href: "#services" },
     { label: "Portfolio", href: "#portfolio" },
     { label: "About", href: "#about" },
     { label: "Sponsors", href: "#sponsors" },
@@ -62,28 +62,26 @@ export default function Navigation({ className = "" }: NavigationProps) {
             </div>
 
             {/* Desktop Navigation */}
-            {!isMobile && (
-              <div className="hidden md:flex items-center space-x-8">
-                {menuItems.map((item) => (
-                  <button
-                    key={item.label}
-                    onClick={() => handleMenuClick(item.href)}
-                    className="text-white hover:text-kawachi-primary transition-colors duration-300 font-medium"
-                  >
-                    {item.label}
-                  </button>
-                ))}
+            <div className="hidden md:flex items-center space-x-8">
+              {menuItems.map((item) => (
                 <button
-                  onClick={() => handleMenuClick("#contact")}
-                  className="px-6 py-2 bg-gradient-to-r from-kawachi-primary to-kawachi-secondary rounded-full text-white font-medium hover:scale-105 transition-transform duration-300"
+                  key={item.label}
+                  onClick={() => handleMenuClick(item.href)}
+                  className="text-white hover:text-kawachi-primary transition-colors duration-300 font-medium"
                 >
-                  Contact
+                  {item.label}
                 </button>
-              </div>
-            )}
+              ))}
+              <button
+                onClick={() => handleMenuClick("#contact")}
+                className="px-6 py-2 bg-gradient-to-r from-kawachi-primary to-kawachi-secondary rounded-full text-white font-medium hover:scale-105 transition-transform duration-300"
+              >
+                Contact
+              </button>
+            </div>
 
             {/* Mobile Menu Button */}
-            {isMobile && (
+            <div className="md:hidden">
               <button
                 onClick={toggleMenu}
                 className="relative w-8 h-8 flex flex-col justify-center items-center z-50"
@@ -114,20 +112,20 @@ export default function Navigation({ className = "" }: NavigationProps) {
                   transition={{ duration: 0.3, ease: "easeInOut" }}
                 />
               </button>
-            )}
+            </div>
           </div>
         </div>
       </nav>
 
       {/* Mobile Menu Overlay */}
       <AnimatePresence>
-        {isOpen && isMobile && (
+        {isOpen && (
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.3 }}
-            className="fixed inset-0 z-40 bg-kawachi-space/95 backdrop-blur-lg"
+            className="fixed inset-0 z-40 bg-kawachi-space/95 backdrop-blur-lg md:hidden"
           >
             <div className="flex flex-col items-center justify-center h-full space-y-8 px-8">
               {/* Gradient decoration */}
