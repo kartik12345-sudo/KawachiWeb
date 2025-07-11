@@ -162,7 +162,7 @@ export default function HomePage() {
         <div className="max-w-7xl mx-auto">
           <motion.div className="text-center mb-16" {...fadeInUp}>
             <h2 className="text-4xl md:text-5xl font-bold mb-4 bg-gradient-to-r from-kawachi-primary via-kawachi-secondary to-kawachi-accent bg-clip-text text-transparent">
-              Let's Build Something Amazing Together
+              Let&apos;s Build Something Amazing Together
             </h2>
             <p className="text-gray-400 text-lg max-w-2xl mx-auto">
               Comprehensive infrastructure solutions for modern India
@@ -556,7 +556,7 @@ export default function HomePage() {
               },
               {
                 question:
-                  "What is Kawachi Infratech's approach to quality and safety?",
+                  "What is Kawachi Infratech&apos;s approach to quality and safety?",
                 answer:
                   "We implement rigorous quality control measures, follow international safety standards, and use advanced project management systems with real-time monitoring to ensure all projects meet the highest standards of excellence.",
               },
@@ -743,7 +743,7 @@ export default function HomePage() {
         <div className="max-w-6xl mx-auto">
           <motion.div className="text-center mb-16" {...fadeInUp}>
             <h2 className="text-4xl md:text-5xl font-bold mb-4 bg-gradient-to-r from-kawachi-primary via-kawachi-secondary to-kawachi-accent bg-clip-text text-transparent">
-              Let's Build Something Amazing Together
+              Let&apos;s Build Something Amazing Together
             </h2>
             <p className="text-gray-400 text-lg">
               Ready to start your next infrastructure project? Get in touch with
