@@ -15,7 +15,7 @@ const buttonVariants = cva(
         destructive:
           "bg-destructive text-destructive-foreground hover:bg-destructive/90",
         outline:
-          "border border-input bg-background hover:bg-accent hover:text-accent-foreground",
+          "border border-input bg-transparent hover:bg-accent hover:text-accent-foreground",
         secondary:
           "bg-secondary text-secondary-foreground hover:bg-secondary/80",
         ghost: "hover:bg-accent hover:text-accent-foreground",
@@ -42,49 +42,14 @@ export interface ButtonProps
 }
 
 const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
-  ({ className, variant, size, asChild = false, children, ...props }, ref) => {
+  ({ className, variant, size, asChild = false, ...props }, ref) => {
     const Comp = asChild ? Slot : "button"
-
-    const handleRipple = (event: React.MouseEvent<HTMLElement>) => {
-      const button = event.currentTarget;
-
-      if (button.hasAttribute("disabled") || button.dataset.ripple === "false") {
-        return;
-      }
-      
-      const rect = button.getBoundingClientRect();
-      const circle = document.createElement("span");
-      const diameter = Math.max(button.clientWidth, button.clientHeight);
-      const radius = diameter / 2;
-
-      circle.style.width = circle.style.height = `${diameter}px`;
-      circle.style.left = `${event.clientX - rect.left - radius}px`;
-      circle.style.top = `${event.clientY - rect.top - radius}px`;
-      circle.classList.add("ripple");
-
-      const ripple = button.querySelector(".ripple");
-      if (ripple) {
-        ripple.remove();
-      }
-
-      button.appendChild(circle);
-      
-      setTimeout(() => {
-        if(circle.parentElement) {
-          circle.remove();
-        }
-      }, 600);
-    };
-
     return (
       <Comp
         className={cn(buttonVariants({ variant, size, className }))}
         ref={ref}
-        onMouseDown={handleRipple}
         {...props}
-      >
-        {children}
-      </Comp>
+      />
     )
   }
 )

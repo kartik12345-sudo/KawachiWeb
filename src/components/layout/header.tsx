@@ -2,17 +2,18 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
-import { Menu, X, HardHat } from "lucide-react";
+import { Menu, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Logo } from "@/components/icons/logo";
 import { cn } from "@/lib/utils";
 
 const navLinks = [
   { href: "#home", label: "Home" },
-  { href: "#about", label: "About" },
   { href: "#services", label: "Services" },
-  { href: "#projects", label: "Projects" },
-  { href: "#contact", label: "Contact" },
+  { href: "#portfolio", label: "Portfolio" },
+  { href: "#about", label: "About" },
+  { href: "#sponsors", label: "Sponsors" },
+  { href: "#news", label: "News" },
 ];
 
 export function Header() {
@@ -38,24 +39,24 @@ export function Header() {
         )}
       >
         <div className="container mx-auto px-4">
-          <div className="flex h-20 items-center justify-between">
-            <Link href="#home" className="flex items-center gap-2">
-              <Logo className="h-8 w-auto" />
+          <div className="flex h-24 items-center justify-between">
+            <Link href="#home">
+              <Logo />
             </Link>
-            <nav className="hidden md:flex items-center gap-6">
+            <nav className="hidden md:flex items-center gap-8">
               {navLinks.map((link) => (
                 <Link
                   key={link.href}
                   href={link.href}
-                  className="text-sm font-medium text-foreground/80 transition-colors hover:text-primary"
+                  className="text-sm font-medium text-white/80 transition-colors hover:text-white"
                 >
                   {link.label}
                 </Link>
               ))}
             </nav>
             <div className="flex items-center gap-4">
-               <Button asChild className="hidden md:inline-flex" variant="outline">
-                <Link href="#contact">Get a Quote</Link>
+               <Button asChild className="hidden md:inline-flex btn-gradient rounded-lg">
+                <Link href="#contact">Contact</Link>
               </Button>
               <Button
                 variant="ghost"
@@ -84,15 +85,15 @@ export function Header() {
               <Link
                 key={link.href}
                 href={link.href}
-                className="text-2xl font-bold text-foreground transition-colors hover:text-primary"
+                className="text-2xl font-bold text-white transition-colors hover:text-cyan-400"
                 onClick={() => setIsMenuOpen(false)}
               >
                 {link.label}
               </Link>
             ))}
           </nav>
-          <Button asChild className="mt-12" size="lg" onClick={() => setIsMenuOpen(false)}>
-            <Link href="#contact">Get a Quote</Link>
+           <Button asChild className="mt-12 btn-gradient rounded-lg" size="lg" onClick={() => setIsMenuOpen(false)}>
+            <Link href="#contact">Contact</Link>
           </Button>
         </div>
       </div>
