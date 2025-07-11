@@ -78,10 +78,31 @@ export default {
             height: '0',
           },
         },
+        'ripple-animation': {
+          to: {
+            transform: 'scale(4)',
+            opacity: '0',
+          }
+        },
+        float: {
+          '0%': {
+            transform: 'translatey(0px)',
+          },
+          '50%': {
+            transform: 'translatey(-20px)',
+          },
+          '100%': {
+            transform: 'translatey(0px)',
+          },
+        },
       },
       animation: {
         'accordion-down': 'accordion-down 0.2s ease-out',
         'accordion-up': 'accordion-up 0.2s ease-out',
+        'ripple': 'ripple-animation 0.6s linear',
+        'float': 'float 6s ease-in-out infinite',
+        'float-fast': 'float 4s ease-in-out infinite',
+        'float-slow': 'float 8s ease-in-out infinite',
       },
       backgroundPosition: {
         'right': '100% 0',

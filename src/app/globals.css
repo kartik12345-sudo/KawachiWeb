@@ -4,38 +4,38 @@
 
 @layer base {
   :root {
-    --background: 0 0% 4%;
-    --foreground: 0 0% 98%;
+    --background: 224 71% 4%; /* #010816 */
+    --foreground: 210 40% 98%; /* #f9fafb */
 
-    --card: 0 0% 4%;
-    --card-foreground: 0 0% 98%;
+    --card: 222 84% 5%; /* #020c14 */
+    --card-foreground: 210 40% 98%; /* #f9fafb */
 
-    --popover: 0 0% 4%;
-    --popover-foreground: 0 0% 98%;
+    --popover: 222 84% 5%; /* #020c14 */
+    --popover-foreground: 210 40% 98%; /* #f9fafb */
 
-    --primary: 180 100% 50%;
-    --primary-foreground: 0 0% 98%;
+    --primary: 180 100% 50%; /* #00FFFF - Cyan */
+    --primary-foreground: 224 71% 4%; /* #010816 */
 
-    --secondary: 0 0% 15%;
-    --secondary-foreground: 0 0% 98%;
+    --secondary: 217 33% 17%; /* #1c253c */
+    --secondary-foreground: 210 40% 98%; /* #f9fafb */
 
-    --muted: 0 0% 15%;
-    --muted-foreground: 0 0% 63.9%;
+    --muted: 217 33% 17%; /* #1c253c */
+    --muted-foreground: 215 20% 65%; /* #9aa3b8 */
     
-    --accent: 300 100% 50%;
-    --accent-foreground: 0 0% 98%;
+    --accent: 158 98% 51%; /* #00F5A0 - Bright Green/Teal */
+    --accent-foreground: 224 71% 4%; /* #010816 */
 
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 0 0% 98%;
+    --destructive: 0 63% 31%; /* #991b1b */
+    --destructive-foreground: 0 0% 98%; /* #fafafa */
 
-    --border: 180 100% 50%;
-    --input: 0 0% 15%;
-    --ring: 180 100% 50%;
+    --border: 180 100% 50%; /* #00FFFF - Cyan */
+    --input: 217 33% 17%; /* #1c253c */
+    --ring: 180 100% 50%; /* #00FFFF */
 
-    --radius: 0.5rem;
+    --radius: 0.75rem;
 
-    --gradient-from: 180 100% 50%;
-    --gradient-to: 300 100% 50%;
+    --gradient-from: 180 100% 50%; /* #00FFFF */
+    --gradient-to: 260 100% 60%; /* #5500FF - A deep blue/purple */
   }
 }
 
@@ -60,6 +60,14 @@
   .animate-float {
     animation: float 6s ease-in-out infinite;
   }
+  
+  .animate-float-fast {
+    animation: float 4s ease-in-out infinite;
+  }
+  
+  .animate-float-slow {
+    animation: float 8s ease-in-out infinite;
+  }
 
   @keyframes float {
     0% {
@@ -80,29 +88,46 @@
     text-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
   }
 
-  @keyframes fade-in-up {
-    from {
-      opacity: 0;
-      transform: translateY(20px);
-    }
+  .icon-glow {
+     filter: drop-shadow(0 0 8px hsl(var(--primary) / 0.8));
+  }
+  
+  .accent-glow {
+     filter: drop-shadow(0 0 12px hsl(var(--accent) / 0.7));
+  }
+
+  .glassmorphic {
+    @apply bg-card/50 backdrop-blur-lg border border-white/10;
+  }
+
+  .neumorphic-outline {
+    @apply border border-white/10 shadow-[4px_4px_8px_rgba(0,0,0,0.2),-4px_-4px_8px_rgba(255,255,255,0.05)] hover:shadow-[inset_2px_2px_4px_rgba(0,0,0,0.2),inset_-2px_-2px_4px_rgba(255,255,255,0.05)] transition-shadow duration-300;
+  }
+
+  .neumorphic-inset {
+    @apply shadow-[inset_4px_4px_8px_rgba(0,0,0,0.3),inset_-4px_-4px_8px_rgba(255,255,255,0.05)];
+  }
+
+  .ripple {
+    position: absolute;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.3);
+    transform: scale(0);
+    animation: ripple-animation 0.6s linear;
+    pointer-events: none;
+  }
+
+  @keyframes ripple-animation {
     to {
-      opacity: 1;
-      transform: translateY(0);
+      transform: scale(4);
+      opacity: 0;
     }
   }
 
-  .animate-in-view {
+  /* Fade-in animations for scroll reveals */
+  .fade-in-up {
     opacity: 0;
     transform: translateY(20px);
     transition: opacity 0.6s ease-out, transform 0.6s ease-out;
-  }
-  
-  .is-visible .animate-in-view {
-    opacity: 1;
-    transform: translateY(0);
-  }
-
-  .icon-glow {
-     filter: drop-shadow(0 0 8px hsl(var(--primary) / 0.6));
   }
 }

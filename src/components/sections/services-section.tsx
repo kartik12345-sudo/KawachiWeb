@@ -3,7 +3,8 @@
 import { useRef } from 'react';
 import { Building2, Wrench, DraftingCompass, ClipboardCheck } from 'lucide-react';
 import { Card, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
-import { useOnScreen } from '@/hooks/use-on-screen';
+import { motion } from 'framer-motion';
+import { useInView } from 'framer-motion';
 
 const services = [
   {
@@ -29,39 +30,68 @@ const services = [
 ];
 
 export function ServicesSection() {
-  const ref = useRef<HTMLDivElement>(null);
-  const isVisible = useOnScreen(ref, { threshold: 0.1 });
+  const ref = useRef(null);
+  const isInView = useInView(ref, { once: true, amount: 0.2 });
+
+  const containerVariants = {
+    hidden: {},
+    visible: {
+      transition: {
+        staggerChildren: 0.15,
+      },
+    },
+  };
+
+  const itemVariants = {
+    hidden: { opacity: 0, y: 50 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        duration: 0.6,
+        ease: 'easeOut',
+      },
+    },
+  };
 
   return (
-    <section id="services" className="py-20 md:py-32 bg-secondary overflow-hidden" ref={ref}>
+    <section id="services" className="py-20 md:py-32 bg-background overflow-hidden" ref={ref}>
       <div className="container mx-auto px-4">
-        <div className="text-center max-w-2xl mx-auto mb-16">
+        <motion.div 
+          className="text-center max-w-2xl mx-auto mb-16"
+          initial={{ opacity: 0, y: 20 }}
+          animate={isInView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.6 }}
+        >
           <h2 className="text-sm font-bold uppercase text-primary mb-2">Our Services</h2>
-          <h3 className="text-3xl md:text-4xl font-bold mb-4">
-            Expertise You Can Build On
+          <h3 className="text-3xl md:text-4xl font-bold mb-4 text-gradient">
+            Let's Build the Future
           </h3>
           <p className="text-muted-foreground">
             We offer a comprehensive range of services to meet the diverse needs of our clients, from initial design to final construction.
           </p>
-        </div>
+        </motion.div>
 
-        <div className={isVisible ? 'is-visible' : ''}>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-            {services.map((service, index) => (
-              <div key={service.title} className="animate-in-view" style={{ transitionDelay: `${index * 150}ms` }}>
-                <Card className="text-center h-full hover:shadow-xl hover:-translate-y-2 transition-all duration-300 border-transparent hover:border-primary/20 bg-background">
-                  <CardHeader className="items-center">
-                    <div className="p-4 bg-primary/10 rounded-full mb-4">
-                      <service.icon className="h-8 w-8 text-primary icon-glow" />
-                    </div>
-                    <CardTitle>{service.title}</CardTitle>
-                    <CardDescription className="pt-2">{service.description}</CardDescription>
-                  </CardHeader>
-                </Card>
-              </div>
-            ))}
-          </div>
-        </div>
+        <motion.div 
+          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8"
+          variants={containerVariants}
+          initial="hidden"
+          animate={isInView ? 'visible' : 'hidden'}
+        >
+          {services.map((service) => (
+            <motion.div key={service.title} variants={itemVariants}>
+              <Card className="text-center h-full glassmorphic group hover:-translate-y-2 transition-transform duration-300 hover:shadow-2xl hover:shadow-cyan-500/10">
+                <CardHeader className="items-center p-6 md:p-8">
+                  <div className="p-4 bg-primary/10 rounded-full mb-4 border border-primary/20 transition-all duration-300 group-hover:scale-110 group-hover:bg-primary/20">
+                    <service.icon className="h-8 w-8 text-primary icon-glow transition-all duration-300 group-hover:text-white" />
+                  </div>
+                  <CardTitle className="text-xl">{service.title}</CardTitle>
+                  <CardDescription className="pt-2 text-muted-foreground">{service.description}</CardDescription>
+                </CardHeader>
+              </Card>
+            </motion.div>
+          ))}
+        </motion.div>
       </div>
     </section>
   );

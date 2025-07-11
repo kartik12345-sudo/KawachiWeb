@@ -2,71 +2,97 @@
 
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import { useEffect, useState } from "react";
+import { motion } from "framer-motion";
 import { cn } from "@/lib/utils";
 
 const Orb = ({ className, style }: { className: string, style?: React.CSSProperties }) => {
-  return <div className={cn("absolute rounded-full bg-cyan-500/20 blur-xl animate-float", className)} style={style} />;
+  return <motion.div className={cn("absolute rounded-full bg-gradient-to-br from-cyan-500/30 to-purple-500/30 blur-3xl", className)} style={style} />;
 };
 
 export function HeroSection() {
-    const [isMounted, setIsMounted] = useState(false);
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.2,
+        delayChildren: 0.3,
+      },
+    },
+  };
 
-    useEffect(() => {
-        setIsMounted(true);
-    }, []);
+  const itemVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        duration: 0.6,
+        ease: "easeOut",
+      },
+    },
+  };
 
-    if (!isMounted) {
-        return null;
-    }
-    
   return (
     <section id="home" className="relative h-screen min-h-[700px] w-full flex items-center justify-center overflow-hidden">
-        <div className="absolute inset-0 bg-black z-0" />
-        
-        {/* Animated Orbs */}
-        <Orb className="w-48 h-48 top-[10%] left-[5%]" />
-        <Orb className="w-32 h-32 top-[20%] right-[10%]" style={{ animationDelay: '2s' }}/>
-        <Orb className="w-24 h-24 bottom-[30%] left-[20%]" style={{ animationDelay: '4s' }}/>
-        <Orb className="w-40 h-40 bottom-[15%] right-[15%]" style={{ animationDelay: '1s' }}/>
+      <div className="absolute inset-0 bg-background z-0" />
+      
+      {/* Animated Orbs */}
+      <Orb className="w-72 h-72 top-[5%] left-[10%] animate-float" />
+      <Orb className="w-56 h-56 top-[15%] right-[15%] animate-float-slow" />
+      <Orb className="w-48 h-48 bottom-[25%] left-[25%] animate-float-fast" />
+      <Orb className="w-64 h-64 bottom-[10%] right-[20%] animate-float" />
+      <div className="absolute inset-0 bg-black/30 z-10" />
 
-
-      <div className="relative z-20 container mx-auto px-4 text-center">
+      <motion.div 
+        className="relative z-20 container mx-auto px-4 text-center"
+        variants={containerVariants}
+        initial="hidden"
+        animate="visible"
+      >
         <div className="max-w-4xl mx-auto">
-          <h1 className="font-headline text-4xl md:text-6xl lg:text-7xl font-bold tracking-tight mb-6 text-gradient animate-fade-in-up">
+          <motion.h1 
+            className="font-headline text-4xl md:text-6xl lg:text-7xl font-bold tracking-tight mb-6 text-gradient"
+            style={{ textShadow: '0 0 25px hsl(var(--primary) / 0.5), 0 0 50px hsl(var(--gradient-to) / 0.3)' }}
+            variants={itemVariants}
+          >
             Engineering Infrastructure for the Future
-          </h1>
-          <p className="text-lg md:text-xl text-white/80 max-w-2xl mx-auto mb-4 animate-fade-in-up" style={{ animationDelay: '0.2s' }}>
-            Leading Construction & Infrastructure Development Across India
-          </p>
-          <p className="text-base text-white/60 max-w-3xl mx-auto mb-10 animate-fade-in-up" style={{ animationDelay: '0.4s' }}>
-            Kawachi Infratech delivers innovative, scalable, and sustainable engineering solutions with cutting-edge technology, BIM integration, and proven expertise.
-          </p>
-          <div className="flex flex-wrap justify-center gap-4 animate-fade-in-up" style={{ animationDelay: '0.6s' }}>
-            <Button asChild size="lg" className="btn-gradient rounded-lg">
+          </motion.h1>
+
+          <motion.div 
+            className="p-6 md:p-8 rounded-xl neumorphic-inset max-w-3xl mx-auto mb-10"
+            variants={itemVariants}
+          >
+            <p className="text-lg md:text-xl text-foreground/80 max-w-2xl mx-auto mb-4">
+              Leading Construction & Infrastructure Development Across India
+            </p>
+            <p className="text-base text-muted-foreground max-w-3xl mx-auto">
+              Kawachi Infratech delivers innovative, scalable, and sustainable engineering solutions with cutting-edge technology, BIM integration, and proven expertise.
+            </p>
+          </motion.div>
+
+          <motion.div 
+            className="flex flex-wrap justify-center gap-4"
+            variants={itemVariants}
+          >
+            <Button asChild size="lg" className="btn-gradient rounded-lg shadow-lg shadow-cyan-500/20 hover:shadow-cyan-500/40">
               <Link href="#projects">
                 Explore Projects
               </Link>
             </Button>
-             <Button asChild size="lg" variant="outline" className="border-cyan-400 text-cyan-400 hover:bg-cyan-400/10 hover:text-cyan-300 rounded-lg">
+            <Button asChild size="lg" variant="outline" className="neumorphic-outline text-foreground hover:text-primary hover:border-primary">
               <Link href="#services">
                 Our Services
               </Link>
             </Button>
-             <Button asChild size="lg" variant="outline" className="border-cyan-400 text-cyan-400 hover:bg-cyan-400/10 hover:text-cyan-300 rounded-lg">
+            <Button asChild size="lg" variant="outline" className="neumorphic-outline text-foreground hover:text-primary hover:border-primary">
               <Link href="#contact">
                 Get Quote
               </Link>
             </Button>
-          </div>
+          </motion.div>
         </div>
-      </div>
-
-      <div className="absolute bottom-10 left-10 z-20">
-        <div className="w-8 h-8 rounded-full border-2 border-white/50 flex items-center justify-center">
-            <span className="font-bold text-white/50">N</span>
-        </div>
-      </div>
+      </motion.div>
     </section>
   );
 }
