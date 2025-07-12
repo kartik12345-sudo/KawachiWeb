@@ -7,28 +7,33 @@ import { Button } from '@/components/ui/button';
 import { ArrowRight } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 import { useOnScreen } from '@/hooks/use-on-screen';
+import Link from 'next/link';
 
 const projects = [
   {
     title: 'Skylark Bridge',
+    slug: 'skylark-bridge',
     location: 'Metropolis, USA',
     category: 'Infrastructure',
     image: { src: 'https://images.unsplash.com/photo-1429041966141-44d228a42775?q=80&w=600&h=400&fit=crop', hint: 'suspension bridge' },
   },
   {
     title: 'Apex Tower',
+    slug: 'apex-tower',
     location: 'Gotham City, USA',
     category: 'Commercial',
     image: { src: 'https://images.unsplash.com/photo-1582211516142-a0a149a46327?q=80&w=600&h=400&fit=crop', hint: 'modern skyscraper' },
   },
   {
     title: 'Coastal Highway Expansion',
+    slug: 'coastal-highway-expansion',
     location: 'Star City, USA',
     category: 'Transportation',
     image: { src: 'https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?q=80&w=600&h=400&fit=crop', hint: 'coastal highway' },
   },
   {
     title: 'Olympus Stadium',
+    slug: 'olympus-stadium',
     location: 'Central City, USA',
     category: 'Recreational',
     image: { src: 'https://images.unsplash.com/photo-1596249313364-24538b726c59?q=80&w=600&h=400&fit=crop', hint: 'sports stadium' },
@@ -71,8 +76,10 @@ export function ProjectsSection() {
                   <CardFooter className="p-6 bg-secondary flex-grow flex-col items-start">
                     <h4 className="text-xl font-bold mb-1">{project.title}</h4>
                     <p className="text-muted-foreground mb-4">{project.location}</p>
-                    <Button variant="link" className="p-0 h-auto mt-auto">
-                      View Project Details <ArrowRight className="ml-2 h-4 w-4" />
+                    <Button asChild variant="link" className="p-0 h-auto mt-auto">
+                      <Link href={`/project/${project.slug}`}>
+                        View Project Details <ArrowRight className="ml-2 h-4 w-4" />
+                      </Link>
                     </Button>
                   </CardFooter>
                 </Card>

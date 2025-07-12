@@ -172,8 +172,30 @@
   }
 
   .text-gradient-hero {
-    background: linear-gradient(90deg, #00FFFF, #FF00FF);
+    background: linear-gradient(90deg, #00FFFF, #FF00FF, #00FFFF);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
+    background-size: 200% auto;
+    transition: background-position 0.5s ease-in-out;
+  }
+  .text-gradient-hero:hover {
+    background-position: -100% center;
+  }
+
+  @keyframes dots {
+    0% {
+      transform: translate(0, 0);
+      opacity: 0;
+    }
+    20% {
+      opacity: 1;
+    }
+    80% {
+      opacity: 1;
+    }
+    100% {
+      transform: translate(var(--x-end), var(--y-end));
+      opacity: 0;
+    }
   }
 }

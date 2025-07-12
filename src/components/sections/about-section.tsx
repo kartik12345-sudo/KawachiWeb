@@ -51,7 +51,7 @@ export function AboutSection() {
                 ))}
               </ul>
               <Button asChild size="lg" variant="outline">
-                <Link href="#contact">Learn More</Link>
+                <Link href="/project/pioneering-the-future">Learn More</Link>
               </Button>
             </div>
           </div>

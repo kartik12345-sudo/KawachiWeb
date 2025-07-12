@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
 import { cn } from "@/lib/utils";
 import { Logo } from '../icons/logo';
+import { AnimatedBackground } from '../ui/animated-background';
 
 export function HeroSection() {
   const containerVariants = {
@@ -33,9 +34,7 @@ export function HeroSection() {
 
   return (
     <section id="home" className="relative h-screen min-h-[700px] w-full flex items-center justify-center overflow-hidden">
-      <div className="absolute inset-0 bg-background z-0" />
-      
-      <div className="absolute top-0 left-0 right-0 h-40 bg-gradient-to-b from-cyan-400/20 to-transparent blur-3xl" />
+      <AnimatedBackground />
       <div className="absolute inset-0 bg-black/30 z-10" />
 
       <motion.div 
