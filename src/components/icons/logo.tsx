@@ -5,7 +5,7 @@ export function Logo(props: HTMLAttributes<HTMLDivElement>) {
   return (
     <div {...props}>
       <Image
-        src="/logo.png"
+        src="/Kawachi_logo_design4.jpg"
         alt="Kawachi Infratech Logo"
         width={180}
         height={40}
