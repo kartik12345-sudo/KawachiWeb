@@ -4,8 +4,6 @@ import React from 'react';
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
-import { cn } from "@/lib/utils";
-import { Logo } from '../icons/logo';
 import { AnimatedBackground } from '../ui/animated-background';
 
 export function HeroSection() {
@@ -43,9 +41,6 @@ export function HeroSection() {
         initial="hidden"
         animate="visible"
       >
-        <motion.div variants={itemVariants} className="mb-8">
-           <Logo />
-        </motion.div>
         <motion.h1 
           className="font-bold text-4xl md:text-6xl lg:text-7xl tracking-tight mb-4 text-gradient-hero"
           style={{ textShadow: '0 0 25px hsl(var(--primary) / 0.5), 0 0 50px hsl(var(--gradient-via) / 0.3)' }}
