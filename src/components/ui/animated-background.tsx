@@ -1,9 +1,17 @@
 
 "use client";
-import React, { useMemo } from 'react';
+import React, { useMemo, useState, useEffect } from 'react';
 
 export function AnimatedBackground() {
+  const [isMounted, setIsMounted] = useState(false);
+
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
+
   const dots = useMemo(() => {
+    if (!isMounted) return [];
+    
     const numDots = 50;
     const colors = ['#00FFFF', '#FF00FF', '#00F5A0'];
     return Array.from({ length: numDots }).map((_, i) => {
@@ -37,7 +45,11 @@ export function AnimatedBackground() {
         />
       );
     });
-  }, []);
+  }, [isMounted]);
+
+  if (!isMounted) {
+    return null;
+  }
 
   return (
     <div className="absolute inset-0 bg-background z-0 overflow-hidden">
