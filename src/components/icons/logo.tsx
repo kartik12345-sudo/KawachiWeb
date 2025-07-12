@@ -9,7 +9,7 @@ export function Logo(props: HTMLAttributes<HTMLDivElement>) {
         alt="Kawachi Infratech Logo"
         width={180}
         height={40}
-        className="w-auto h-10"
+        className="w-auto h-10 mix-blend-screen"
         priority
       />
     </div>
